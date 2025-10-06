@@ -42,7 +42,7 @@ void cEventManager::Process(cPlayer* _player) {
 
 			// Down
 			if (key->scancode == sf::Keyboard::Scancode::Down) {
-				_player->SetPhaseThrough(true);
+				_player->SetPlayerPhaseThrough(true);
 			}
 		}
 
@@ -50,7 +50,7 @@ void cEventManager::Process(cPlayer* _player) {
 		if (const auto* key = event->getIf<sf::Event::KeyReleased>()) {
 			// Down
 			if (key->scancode == sf::Keyboard::Scancode::Down) {
-				_player->SetPhaseThrough(false);
+				_player->SetPlayerPhaseThrough(false);
 			}
 
 			// Left

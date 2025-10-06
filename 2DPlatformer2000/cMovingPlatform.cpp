@@ -76,22 +76,32 @@ void cMovingPlatform::UpdateActor(float _deltaTime, std::vector<cActor*> _actors
 	// Bounds on top of Platform to check for Player
 	sf::FloatRect OnPlatformBounds = this->m_ActorSprite.getGlobalBounds(); // Bounds on top of Moving Platform
 	OnPlatformBounds.position.y--; // Shift bounds Upwards by 1px
-
-	// Move the Player if they are on the Moving Platform TODO
+	
+	// Move the Player if they are on the Moving Platform
 	cActor* CollisionActor = this->CheckCollision(OnPlatformBounds, _actors); // Collision Actor
 	if (CollisionActor != nullptr) {
 		// Double check that the Collision Actor is a Player
 		if (CollisionActor->GetActorType() == ActorType::PLAYER) {
-			// Only Move the Player if they are standing on the Moving Platform
-			if (CollisionActor->GetActorVelocity().y == 0) {
-				// Move offset based on the direction of the Moving Platform
-				float fOffset = fLerpX - this->m_ActorPosition.x;
+			// Dynamic Cast to cActor to cPlayer
+			cPlayer* Player = dynamic_cast<cPlayer*>(CollisionActor);
+			
+			// Only Move the Player if they have not been moved by a connected Moving Platform tile
+			if (Player->GetPlayerMovedByPlatform() == false) {
+				// Set Played Moved By Platform
+				Player->SetPlayerMovedByPlatform(true);
 
-				// Move the Player
-				sf::Vector2f PlayerPosition = CollisionActor->GetActorPosition();
-				PlayerPosition.x += fOffset; // Applying Movement Offset
-				CollisionActor->SetActorPosition(PlayerPosition);
+				// Only Move the Player if they are standing on the Moving Platform
+				if (CollisionActor->GetActorVelocity().y == 0) {
+					// Move offset based on the direction of the Moving Platform
+					float fOffset = fLerpX - this->m_ActorPosition.x;
+
+					// Move the Player
+					sf::Vector2f PlayerPosition = CollisionActor->GetActorPosition();
+					PlayerPosition.x += fOffset; // Applying Movement Offset
+					Player->SetActorPosition(PlayerPosition);
+				}
 			}
+			
 		}
 	}
 

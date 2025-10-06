@@ -39,6 +39,6 @@ public:
 	void MoveX(float _deltaTime, std::vector<cActor*> _actors) override; // Move X
 	void MoveY(float _deltaTime, std::vector<cActor*> _actors) override; // Move Y
 	cActor* CheckCollision(sf::FloatRect _bounds, std::vector<cActor*> _actors) override; // Check Collision
-	void SetActorPosition(sf::Vector2f _position) override;
+	void SetActorPosition(sf::Vector2f _position) override; // Set Actor Position
 };
 

@@ -24,7 +24,7 @@ cPlayer::cPlayer() : cActor(ActorType::PLAYER),
 	this->m_MovementTileStart = 261;
 	this->m_MovementTileEnd = 264;
 
-	// Player Stats
+	// Player Attributes
 	this->m_Lives = this->m_MaxLives; // Start with Max Lives
 	this->m_MoveSpeed = 8.0f;
 	this->m_JumpHeight = -20.0f;
@@ -97,6 +97,9 @@ void cPlayer::UpdateActor(float _deltaTime, std::vector<cActor*> _actors) {
 			}
 		}
 	}
+
+	// Allow Movement by Moving Platforms at this Frame
+	this->m_HasMovedByPlatform = false;
 
 	// Apply Acceleration
 	this->m_Velocity += this->m_Acceleration * _deltaTime;
@@ -394,8 +397,20 @@ void cPlayer::Jump() {
 	}
 }
 
-void cPlayer::SetPhaseThrough(bool _phase) {
+void cPlayer::SetPlayerPhaseThrough(bool _phase) {
 	this->m_HasPhasedThrough = _phase;
+}
+
+void cPlayer::SetPlayerLives(int _lives) {
+	this->m_Lives = _lives;
+}
+
+void cPlayer::SetPlayerMovedByPlatform(bool _hasMoved) {
+	this->m_HasMovedByPlatform = _hasMoved;
+}
+
+const bool cPlayer::GetPlayerPhaseThrough() const {
+	return this->m_HasPhasedThrough;
 }
 
 const int cPlayer::GetPlayerLives() const {
@@ -404,4 +419,8 @@ const int cPlayer::GetPlayerLives() const {
 
 const int cPlayer::GetPlayerMaxLives() const {
 	return this->m_MaxLives;
+}
+
+const bool cPlayer::GetPlayerMovedByPlatform() const {
+	return this->m_HasMovedByPlatform;
 }

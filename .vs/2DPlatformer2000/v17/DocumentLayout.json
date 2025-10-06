@@ -3,24 +3,24 @@
   "WorkspaceRootPath": "E:\\MDS\\2025\\Second Semester\\GD1P03 - 2D Game Programming\\Assessments\\Assessment 2 - 2D Platformer\\2DPlatformer2000\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7215E1DA-5A89-416C-92B9-963B2CF4ECF7}|2DPlatformer2000\\2DPlatformer2000.vcxproj|E:\\MDS\\2025\\Second Semester\\GD1P03 - 2D Game Programming\\Assessments\\Assessment 2 - 2D Platformer\\2DPlatformer2000\\2DPlatformer2000\\cMovingPlatform.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{7215E1DA-5A89-416C-92B9-963B2CF4ECF7}|2DPlatformer2000\\2DPlatformer2000.vcxproj|solutionrelative:2DPlatformer2000\\cMovingPlatform.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{7215E1DA-5A89-416C-92B9-963B2CF4ECF7}|2DPlatformer2000\\2DPlatformer2000.vcxproj|E:\\MDS\\2025\\Second Semester\\GD1P03 - 2D Game Programming\\Assessments\\Assessment 2 - 2D Platformer\\2DPlatformer2000\\2DPlatformer2000\\cGameManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7215E1DA-5A89-416C-92B9-963B2CF4ECF7}|2DPlatformer2000\\2DPlatformer2000.vcxproj|solutionrelative:2DPlatformer2000\\cGameManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7215E1DA-5A89-416C-92B9-963B2CF4ECF7}|2DPlatformer2000\\2DPlatformer2000.vcxproj|E:\\MDS\\2025\\Second Semester\\GD1P03 - 2D Game Programming\\Assessments\\Assessment 2 - 2D Platformer\\2DPlatformer2000\\2DPlatformer2000\\cActor.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{7215E1DA-5A89-416C-92B9-963B2CF4ECF7}|2DPlatformer2000\\2DPlatformer2000.vcxproj|solutionrelative:2DPlatformer2000\\cActor.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7215E1DA-5A89-416C-92B9-963B2CF4ECF7}|2DPlatformer2000\\2DPlatformer2000.vcxproj|E:\\MDS\\2025\\Second Semester\\GD1P03 - 2D Game Programming\\Assessments\\Assessment 2 - 2D Platformer\\2DPlatformer2000\\2DPlatformer2000\\cMovingPlatform.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{7215E1DA-5A89-416C-92B9-963B2CF4ECF7}|2DPlatformer2000\\2DPlatformer2000.vcxproj|solutionrelative:2DPlatformer2000\\cMovingPlatform.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7215E1DA-5A89-416C-92B9-963B2CF4ECF7}|2DPlatformer2000\\2DPlatformer2000.vcxproj|E:\\MDS\\2025\\Second Semester\\GD1P03 - 2D Game Programming\\Assessments\\Assessment 2 - 2D Platformer\\2DPlatformer2000\\2DPlatformer2000\\cActor.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{7215E1DA-5A89-416C-92B9-963B2CF4ECF7}|2DPlatformer2000\\2DPlatformer2000.vcxproj|solutionrelative:2DPlatformer2000\\cActor.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7215E1DA-5A89-416C-92B9-963B2CF4ECF7}|2DPlatformer2000\\2DPlatformer2000.vcxproj|E:\\MDS\\2025\\Second Semester\\GD1P03 - 2D Game Programming\\Assessments\\Assessment 2 - 2D Platformer\\2DPlatformer2000\\2DPlatformer2000\\cGameManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{7215E1DA-5A89-416C-92B9-963B2CF4ECF7}|2DPlatformer2000\\2DPlatformer2000.vcxproj|solutionrelative:2DPlatformer2000\\cGameManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{7215E1DA-5A89-416C-92B9-963B2CF4ECF7}|2DPlatformer2000\\2DPlatformer2000.vcxproj|E:\\MDS\\2025\\Second Semester\\GD1P03 - 2D Game Programming\\Assessments\\Assessment 2 - 2D Platformer\\2DPlatformer2000\\2DPlatformer2000\\cMovingPlatform.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7215E1DA-5A89-416C-92B9-963B2CF4ECF7}|2DPlatformer2000\\2DPlatformer2000.vcxproj|solutionrelative:2DPlatformer2000\\cMovingPlatform.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7215E1DA-5A89-416C-92B9-963B2CF4ECF7}|2DPlatformer2000\\2DPlatformer2000.vcxproj|E:\\MDS\\2025\\Second Semester\\GD1P03 - 2D Game Programming\\Assessments\\Assessment 2 - 2D Platformer\\2DPlatformer2000\\2DPlatformer2000\\cMovingPlatform.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7215E1DA-5A89-416C-92B9-963B2CF4ECF7}|2DPlatformer2000\\2DPlatformer2000.vcxproj|solutionrelative:2DPlatformer2000\\cMovingPlatform.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7215E1DA-5A89-416C-92B9-963B2CF4ECF7}|2DPlatformer2000\\2DPlatformer2000.vcxproj|E:\\MDS\\2025\\Second Semester\\GD1P03 - 2D Game Programming\\Assessments\\Assessment 2 - 2D Platformer\\2DPlatformer2000\\2DPlatformer2000\\cGameManager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -34,30 +34,30 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "cMovingPlatform.cpp",
               "DocumentMoniker": "E:\\MDS\\2025\\Second Semester\\GD1P03 - 2D Game Programming\\Assessments\\Assessment 2 - 2D Platformer\\2DPlatformer2000\\2DPlatformer2000\\cMovingPlatform.cpp",
               "RelativeDocumentMoniker": "2DPlatformer2000\\cMovingPlatform.cpp",
               "ToolTip": "E:\\MDS\\2025\\Second Semester\\GD1P03 - 2D Game Programming\\Assessments\\Assessment 2 - 2D Platformer\\2DPlatformer2000\\2DPlatformer2000\\cMovingPlatform.cpp",
               "RelativeToolTip": "2DPlatformer2000\\cMovingPlatform.cpp",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAUwE8AAAA7AAAAAAAAAA==",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAUwFUAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-10-04T04:35:05.718Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "cMovingPlatform.h",
               "DocumentMoniker": "E:\\MDS\\2025\\Second Semester\\GD1P03 - 2D Game Programming\\Assessments\\Assessment 2 - 2D Platformer\\2DPlatformer2000\\2DPlatformer2000\\cMovingPlatform.h",
               "RelativeDocumentMoniker": "2DPlatformer2000\\cMovingPlatform.h",
               "ToolTip": "E:\\MDS\\2025\\Second Semester\\GD1P03 - 2D Game Programming\\Assessments\\Assessment 2 - 2D Platformer\\2DPlatformer2000\\2DPlatformer2000\\cMovingPlatform.h",
               "RelativeToolTip": "2DPlatformer2000\\cMovingPlatform.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABoAAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-10-04T15:54:44.753Z",
               "EditorCaption": ""
@@ -70,14 +70,14 @@
               "RelativeDocumentMoniker": "2DPlatformer2000\\cActor.cpp",
               "ToolTip": "E:\\MDS\\2025\\Second Semester\\GD1P03 - 2D Game Programming\\Assessments\\Assessment 2 - 2D Platformer\\2DPlatformer2000\\2DPlatformer2000\\cActor.cpp",
               "RelativeToolTip": "2DPlatformer2000\\cActor.cpp",
-              "ViewState": "AgIAAAgBAAAAAAAAAAAAANAAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAIIAAAAAAAAAAAAuwK4AAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-10-03T14:51:39.363Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "cActor.h",
               "DocumentMoniker": "E:\\MDS\\2025\\Second Semester\\GD1P03 - 2D Game Programming\\Assessments\\Assessment 2 - 2D Platformer\\2DPlatformer2000\\2DPlatformer2000\\cActor.h",
               "RelativeDocumentMoniker": "2DPlatformer2000\\cActor.h",
@@ -90,13 +90,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "cGameManager.cpp",
               "DocumentMoniker": "E:\\MDS\\2025\\Second Semester\\GD1P03 - 2D Game Programming\\Assessments\\Assessment 2 - 2D Platformer\\2DPlatformer2000\\2DPlatformer2000\\cGameManager.cpp",
               "RelativeDocumentMoniker": "2DPlatformer2000\\cGameManager.cpp",
               "ToolTip": "E:\\MDS\\2025\\Second Semester\\GD1P03 - 2D Game Programming\\Assessments\\Assessment 2 - 2D Platformer\\2DPlatformer2000\\2DPlatformer2000\\cGameManager.cpp",
               "RelativeToolTip": "2DPlatformer2000\\cGameManager.cpp",
-              "ViewState": "AgIAAG8AAAAAAAAAAAAAAHsAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAH4AAAAAAAAAAAAAAI4AAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-09-28T03:06:39.202Z",
               "EditorCaption": ""

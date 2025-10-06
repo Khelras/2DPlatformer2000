@@ -132,6 +132,16 @@ void cGameManager::Process() {
 	this->m_Actors[20]->SetActorSprite(6, 7);
 	this->m_Actors[20]->SetActorPosition(sf::Vector2f(0.0f, -96.0f));
 
+
+	// Another Moving Platform
+	this->m_Actors.push_back(new cMovingPlatform());
+	this->m_Actors[21]->SetActorSprite(4, 7);
+	this->m_Actors[21]->SetActorPosition(sf::Vector2f(-16.0f, 64.0f));
+
+	this->m_Actors.push_back(new cMovingPlatform());
+	this->m_Actors[22]->SetActorSprite(6, 7);
+	this->m_Actors[22]->SetActorPosition(sf::Vector2f(0.0f, 64.0f));
+
 	// Starts Window Manager (Main Game Loop)
 	while (this->m_WindowManager.Process()) {
 		// Delta Time

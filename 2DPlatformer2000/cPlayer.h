@@ -30,13 +30,14 @@ private:
 	// Animations
 	cAnimation m_MovementAnimation;
 
-	// Player Stats
+	// Player Attributes
 	int m_Lives; // Player Lives
 	const int m_MaxLives = 3; // Max Player Lives
 	float m_MoveSpeed; // Player Movement Speed
 	float m_JumpHeight; // Player Jump Height
 	bool m_HasDoubleJumped; // Player Double Jump
 	bool m_HasPhasedThrough; // Player Phase Through
+	bool m_HasMovedByPlatform; // Player Movement with a Moving Platform
 
 public:
 	cPlayer(); // Constructor
@@ -52,10 +53,16 @@ public:
 	void MovePlayer(MovementDirection _direction); // Player Movement
 	void IdlePlayer(); // Player Idle
 	void Jump(); // Player Jump
-	void SetPhaseThrough(bool _phase); // Player Phase Through
 	
+	// Setters
+	void SetPlayerPhaseThrough(bool _phase); // Set the Player Phase Through
+	void SetPlayerLives(int _lives); // Set the Lives of the Player
+	void SetPlayerMovedByPlatform(bool _hasMoved); // Sets the Player Moved By Platform
+
 	// Getters
+	const bool GetPlayerPhaseThrough() const; // Return the Player Phase Through
 	const int GetPlayerLives() const; // Returns the Lives of the Player
 	const int GetPlayerMaxLives() const; // Returns the Max Lives of the Player
+	const bool GetPlayerMovedByPlatform() const; // Returns the Player Moved By Platform
 };
 
