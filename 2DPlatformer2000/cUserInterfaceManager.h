@@ -25,7 +25,7 @@ public:
 
 	// User Interface Manager Functions
 	void Initialise(cTileMap* _tileMap); // Initialise the User Interface Manager
-	void Process(cPlayer* _player); // Process User Interface
+	void Process(GameSettings& _settings, cPlayer* _player); // Process User Interface
 	void DrawUI(sf::RenderWindow& _window); // Draw the User Interface
 };
 

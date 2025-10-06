@@ -47,7 +47,7 @@ cMovingPlatform::cMovingPlatform() : cActor(ActorType::SOLID_THROUGH_MOVING) {
 cMovingPlatform::~cMovingPlatform() {
 }
 
-void cMovingPlatform::UpdateActor(float _deltaTime, std::vector<cActor*> _actors) {
+void cMovingPlatform::UpdateActor(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors) {
 	// Add Delta Time to the Time Accumulator
 	this->m_TimeAccumulator += _deltaTime;
 
@@ -110,14 +110,6 @@ void cMovingPlatform::UpdateActor(float _deltaTime, std::vector<cActor*> _actors
 
 	// Set Sprite Position
 	this->m_ActorSprite.setPosition(this->m_ActorPosition);
-}
-
-void cMovingPlatform::MoveX(float _deltaTime, std::vector<cActor*> _actors) {
-	// Do Nothing
-}
-
-void cMovingPlatform::MoveY(float _deltaTime, std::vector<cActor*> _actors) {
-	// Do Nothing
 }
 
 cActor* cMovingPlatform::CheckCollision(sf::FloatRect _bounds, std::vector<cActor*> _actors) {

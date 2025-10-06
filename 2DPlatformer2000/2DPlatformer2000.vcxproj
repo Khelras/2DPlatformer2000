@@ -200,6 +200,7 @@
     <ClCompile Include="cUserInterface.cpp" />
     <ClCompile Include="cUserInterfaceManager.cpp" />
     <ClCompile Include="cWindowManager.cpp" />
+    <ClCompile Include="GameSettings.h" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

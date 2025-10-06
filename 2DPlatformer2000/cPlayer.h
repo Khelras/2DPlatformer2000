@@ -31,10 +31,10 @@ private:
 	cAnimation m_MovementAnimation; // Movement Animation
 
 	// Player Attributes
-	int m_Lives; // Player Lives
-	const int m_MaxLives = 3; // Max Player Lives
-	float m_MoveSpeed; // Player Movement Speed
-	float m_JumpHeight; // Player Jump Height
+	//int m_Lives; // Player Lives
+	//const int m_MaxLives = 3; // Max Player Lives
+	//float m_MoveSpeed; // Player Movement Speed
+	//float m_JumpHeight; // Player Jump Height
 	bool m_HasKey; // Level key
 	bool m_HasDoubleJumped; // Player Double Jump
 	bool m_HasPhasedThrough; // Player Phase Through
@@ -45,25 +45,22 @@ public:
 	~cPlayer(); // Destructor
 
 	// Overridden Functions
-	void UpdateActor(float _deltaTime, std::vector<cActor*> _actors) override;
-	void MoveX(float _deltaTime, std::vector<cActor*> _actors) override;
-	void MoveY(float _deltaTime, std::vector<cActor*> _actors) override;
+	void UpdateActor(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors) override;
+	void MoveX(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors) override;
+	void MoveY(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors) override;
 
 	// Player Functions
 	sf::FloatRect GetPlayerBounds(); // Returns the Custom Bounds of Player
-	void MovePlayer(MovementDirection _direction); // Player Movement
+	void MovePlayer(MovementDirection _direction, GameSettings& _settings); // Player Movement
 	void IdlePlayer(); // Player Idle
-	void Jump(); // Player Jump
+	void Jump(GameSettings& _settings); // Player Jump
 	
 	// Setters
 	void SetPlayerPhaseThrough(bool _phase); // Set the Player Phase Through
-	void SetPlayerLives(int _lives); // Set the Lives of the Player
 	void SetPlayerMovedByPlatform(bool _hasMoved); // Sets the Player Moved By Platform
 
 	// Getters
 	const bool GetPlayerPhaseThrough() const; // Returns the Player Phase Through
-	const int GetPlayerLives() const; // Returns the Lives of the Player
-	const int GetPlayerMaxLives() const; // Returns the Max Lives of the Player
 	const bool GetPlayerMovedByPlatform() const; // Returns the Player Moved By Platform
 };
 

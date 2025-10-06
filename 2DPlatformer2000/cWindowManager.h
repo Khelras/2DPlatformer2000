@@ -19,18 +19,22 @@ private:
 	sf::RenderWindow m_MainWindow; // Main Window
 	sf::RenderWindow m_DebugWindow; // Debug Window
 
+	// Font
+	sf::Font m_DebugFont;
+	sf::Text* m_DebugText;
+
 public:
 	cWindowManager(); // Constructor
 	~cWindowManager(); // Destructor
 
 	// Window Manager Functions
 	bool Process(); // Process Window Manager
-	void Clear(); // Clears the Window
-	void Draw(); // Draw to Window
-	void Display(); // Display the Window
+	void Clear(bool _onlyDebugWindow); // Clears the Window
+	void Draw(bool _onlyDebugWindow); // Draw to Window
+	void Display(bool _onlyDebugWindow); // Display the Window
 
 	// Getters
 	sf::RenderWindow& GetMainWindow(); // Returns a Reference to Main Window
-	sf::RenderWindow& GetDebugWindow(); // Returns a Reference to Debug Window
+	sf::RenderWindow* GetDebugWindow(); // Returns a Pointer to Debug Window
 };
 

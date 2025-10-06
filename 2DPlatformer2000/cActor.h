@@ -13,6 +13,7 @@
 #pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
+#include "GameSettings.h"
 #include "cTileMap.h"
 
 // Type of Actor
@@ -48,8 +49,8 @@ protected:
 	CollisionType m_CollisionType; // Type of Collision
 	bool m_IsDynamic; // Static or Dynamic Actor?
 	bool m_HasGravity; // Does Gravity apply to this Actor?
-	const float m_Gravity = 60.0f; // Gravity
-	const float m_SpeedScalar = 10.0f; // Speed Scalar
+	//const float m_Gravity = 60.0f; // Gravity
+	//const float m_SpeedScalar = 10.0f; // Speed Scalar
 	sf::Vector2f m_MoveRemainder; // Accumulate Movement
 	sf::Vector2f m_Velocity; // Velocity of Actor
 	sf::Vector2f m_Acceleration; // Acceleration of Actor
@@ -60,9 +61,9 @@ public:
 
 	// Actor Functions (Can be Overridden by any Derived Classes)
 	virtual void DrawActor(sf::RenderWindow& _window); // Draw Actor Sprite to the Window
-	virtual void UpdateActor(float _deltaTime, std::vector<cActor*> _actors); // Updates the Actor
-	virtual void MoveX(float _deltaTime, std::vector<cActor*> _actors); // Horizontal Movement
-	virtual void MoveY(float _deltaTime, std::vector<cActor*> _actors); // Vertical Movement
+	virtual void UpdateActor(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors); // Updates the Actor
+	virtual void MoveX(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors); // Horizontal Movement
+	virtual void MoveY(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors); // Vertical Movement
 	virtual cActor* CheckCollision(sf::FloatRect _bounds, std::vector<cActor*> _actors); // Checks Collision against all Actors
 
 	// Setters for Actor Attributes
@@ -86,8 +87,6 @@ public:
 	virtual CollisionType GetActorCollision() const; // Returns the Collision Type of the Actor
 	virtual bool GetActorDynamic() const; // Returns the Dynamic Boolean of the Actor
 	virtual bool GetActorHasGravity() const; // Returns the Gravity Boolean of the Actor
-	virtual const float GetActorGravity() const; // Returns the Gravity Constant
-	virtual const float GetActorSpeedScalar() const; // Returns the Speed Scalar
 	virtual sf::Vector2f GetActorVelocity() const; // Returns the Velocity of Actor
 	virtual sf::Vector2f GetActorAcceleration() const; // Returns the Acceleration of Actor
 };

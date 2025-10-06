@@ -25,9 +25,9 @@ cPlayer::cPlayer() : cActor(ActorType::PLAYER),
 	this->m_MovementTileEnd = 264;
 
 	// Player Attributes
-	this->m_Lives = this->m_MaxLives; // Start with Max Lives
-	this->m_MoveSpeed = 8.0f;
-	this->m_JumpHeight = -20.0f;
+	//_settings.m_PlayerLives = this->m_MaxLives; // Start with Max Lives
+	//this->_settings.m_PlayerMoveSpeed = 8.0f;
+	//_settings.m_PlayerJumpHeight = -20.0f;
 	this->m_HasKey = false;
 	this->m_HasDoubleJumped = false;
 	this->m_HasPhasedThrough = false;
@@ -37,7 +37,7 @@ cPlayer::cPlayer() : cActor(ActorType::PLAYER),
 cPlayer::~cPlayer() {
 }
 
-void cPlayer::UpdateActor(float _deltaTime, std::vector<cActor*> _actors) {
+void cPlayer::UpdateActor(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors) {
 	// Check if Actor is Dynamic because Static Actors do not move
 	if (this->m_IsDynamic == false) return;
 
@@ -52,7 +52,7 @@ void cPlayer::UpdateActor(float _deltaTime, std::vector<cActor*> _actors) {
 
 		// Now check if Actor is NOT the ground
 		if (CollisionActor == nullptr) {
-			this->m_Velocity.y += this->m_Gravity * _deltaTime; // Gravity
+			this->m_Velocity.y += _settings.m_ActorGravity * _deltaTime; // Gravity
 		}
 		else {
 			// If the Collision Actor is an Actor Type of Solid Through
@@ -60,7 +60,7 @@ void cPlayer::UpdateActor(float _deltaTime, std::vector<cActor*> _actors) {
 				|| CollisionActor->GetActorType() == ActorType::SOLID_THROUGH_MOVING) {
 				// Going Upwards
 				if (this->m_Velocity.y < 0) {
-					this->m_Velocity.y += this->m_Gravity * _deltaTime; // Gravity
+					this->m_Velocity.y += _settings.m_ActorGravity * _deltaTime; // Gravity
 				}
 				// Going Downwards
 				else {
@@ -71,7 +71,7 @@ void cPlayer::UpdateActor(float _deltaTime, std::vector<cActor*> _actors) {
 					if (SelfBounds.position.y + SelfBounds.size.y == CollisionBounds.position.y) {
 						// Check Phase Through
 						if (this->m_HasPhasedThrough == true) {
-							this->m_Velocity.y += this->m_Gravity * _deltaTime; // Gravity
+							this->m_Velocity.y += _settings.m_ActorGravity * _deltaTime; // Gravity
 						}
 						else {
 							// Back to Idle
@@ -84,7 +84,7 @@ void cPlayer::UpdateActor(float _deltaTime, std::vector<cActor*> _actors) {
 						this->m_HasDoubleJumped = false;
 					}
 					else {
-						this->m_Velocity.y += this->m_Gravity * _deltaTime; // Gravity
+						this->m_Velocity.y += _settings.m_ActorGravity * _deltaTime; // Gravity
 					}
 				}
 			}
@@ -107,8 +107,8 @@ void cPlayer::UpdateActor(float _deltaTime, std::vector<cActor*> _actors) {
 	this->m_Velocity += this->m_Acceleration * _deltaTime;
 
 	// Apply Movement
-	this->MoveX(_deltaTime, _actors);
-	this->MoveY(_deltaTime, _actors);
+	this->MoveX(_settings, _deltaTime, _actors);
+	this->MoveY(_settings, _deltaTime, _actors);
 
 	// Set Sprite Position
 	this->m_ActorSprite.setPosition(this->m_ActorPosition);
@@ -117,9 +117,9 @@ void cPlayer::UpdateActor(float _deltaTime, std::vector<cActor*> _actors) {
 	this->m_MovementAnimation.UpdateAnimation(_deltaTime);
 }
 
-void cPlayer::MoveX(float _deltaTime, std::vector<cActor*> _actors) {
+void cPlayer::MoveX(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors) {
 	// Floating-point Movement amount for x-axis
-	float fMoveX = this->m_Velocity.x * this->m_SpeedScalar * _deltaTime;
+	float fMoveX = this->m_Velocity.x * _settings.m_ActorSpeedScalar * _deltaTime;
 
 	// Converting to precise-point Movement for x-axis
 	this->m_MoveRemainder.x += fMoveX; // First add to MoveRemainder x-axis
@@ -159,9 +159,9 @@ void cPlayer::MoveX(float _deltaTime, std::vector<cActor*> _actors) {
 			// If the Collision Actor is a Spike
 			if (CollisionActor->GetActorType() == ActorType::SPIKE) {
 				// Check if Last Life
-				if (this->m_Lives > 0) {
+				if (_settings.m_PlayerLives > 0) {
 					// Decrease Lives
-					this->m_Lives--;
+					_settings.m_PlayerLives--;
 					
 					// TODO: Restart Level
 					this->m_ActorPosition = sf::Vector2f(0.0f, 0.0f); // REMOVE LATER
@@ -182,8 +182,18 @@ void cPlayer::MoveX(float _deltaTime, std::vector<cActor*> _actors) {
 			}
 			// If the Collision Actor is a Door
 			else if (CollisionActor->GetActorType() == ActorType::DOOR) {
-				// TODO: Go to next Level
-				this->m_ActorPosition = sf::Vector2f(0.0f, 0.0f); // REMOVE LATER
+				// Ensure Player has the Level Key
+				if (this->m_HasKey) {
+					// TODO: Go to next Level
+					this->m_ActorPosition = sf::Vector2f(0.0f, 0.0f); // REMOVE LATER
+				}
+				// Player does not have the Level Key
+				else {
+					// Proceed with movement
+					this->m_ActorPosition.x += static_cast<float>(iDirectionX);
+					iMoveX -= iDirectionX;
+					continue;
+				}
 			}
 
 			// If the Collision Actor is an Actor Type of Solid Through
@@ -253,9 +263,9 @@ void cPlayer::MoveX(float _deltaTime, std::vector<cActor*> _actors) {
 	}
 }
 
-void cPlayer::MoveY(float _deltaTime, std::vector<cActor*> _actors) {
+void cPlayer::MoveY(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors) {
 	// Floating-point Movement amount for y-axis
-	float fMoveY = this->m_Velocity.y * this->m_SpeedScalar * _deltaTime;
+	float fMoveY = this->m_Velocity.y * _settings.m_ActorSpeedScalar * _deltaTime;
 
 	// Converting to precise-point Movement for y-axis
 	this->m_MoveRemainder.y += fMoveY; // First add to MoveRemainder y-axis
@@ -306,9 +316,9 @@ void cPlayer::MoveY(float _deltaTime, std::vector<cActor*> _actors) {
 			// If the Collision Actor is a Spike
 			if (CollisionActor->GetActorType() == ActorType::SPIKE) {
 				// Check if Last Life
-				if (this->m_Lives > 0) {
+				if (_settings.m_PlayerLives > 0) {
 					// Decrease Lives
-					this->m_Lives--;
+					_settings.m_PlayerLives--;
 
 					// TODO: Restart Level
 					this->m_ActorPosition = sf::Vector2f(0.0f, 0.0f); // REMOVE LATER
@@ -329,8 +339,18 @@ void cPlayer::MoveY(float _deltaTime, std::vector<cActor*> _actors) {
 			}
 			// If the Collision Actor is a Door
 			else if (CollisionActor->GetActorType() == ActorType::DOOR) {
-				// TODO: Go to next Level
-				this->m_ActorPosition = sf::Vector2f(0.0f, 0.0f); // REMOVE LATER
+				// Ensure Player has the Level Key
+				if (this->m_HasKey) {
+					// TODO: Go to next Level
+					this->m_ActorPosition = sf::Vector2f(0.0f, 0.0f); // REMOVE LATER
+				}
+				// Player does not have the Level Key
+				else {
+					// Proceed with movement
+					this->m_ActorPosition.y += static_cast<float>(iDirectionY);
+					iMoveY -= iDirectionY;
+					continue;
+				}
 			}
 
 			// Going Upwards
@@ -359,7 +379,7 @@ void cPlayer::MoveY(float _deltaTime, std::vector<cActor*> _actors) {
 						if (this->m_HasPhasedThrough == true) {
 							this->m_ActorPosition.y += static_cast<float>(iDirectionY);
 							iMoveY -= iDirectionY;
-							this->m_HasPhasedThrough == false;
+							this->m_HasPhasedThrough = false;
 							continue;
 						}
 
@@ -382,7 +402,7 @@ void cPlayer::MoveY(float _deltaTime, std::vector<cActor*> _actors) {
 					JumpPad->PlayJumpPadAnimation();
 
 					// Launch Player
-					this->m_Velocity.y = JumpPad->GetJumpPadHeight();
+					this->m_Velocity.y = _settings.m_JumpPadHeight;
 					return;
 				}
 				// Other Collision Actor Types
@@ -411,7 +431,7 @@ sf::FloatRect cPlayer::GetPlayerBounds() {
 	return PlayerBounds;
 }
 
-void cPlayer::MovePlayer(MovementDirection _direction) {
+void cPlayer::MovePlayer(MovementDirection _direction, GameSettings& _settings) {
 	// Play Movement Animation
 	if (this->m_Velocity.y == 0) {
 		this->m_MovementAnimation.PlayAnimation();
@@ -424,14 +444,14 @@ void cPlayer::MovePlayer(MovementDirection _direction) {
 	if (_direction == MovementDirection::LEFT) {
 		this->m_ActorSprite.setScale(sf::Vector2f(-1.0f, 1.0f));
 		this->m_ActorSprite.setOrigin(sf::Vector2f(this->m_ActorSprite.getGlobalBounds().size.x, 0.0f));
-		this->m_Velocity.x = -m_MoveSpeed;
+		this->m_Velocity.x = -_settings.m_PlayerMoveSpeed;
 	}
 
 	// Right
 	if (_direction == MovementDirection::RIGHT) {
 		this->m_ActorSprite.setScale(sf::Vector2f(1.0f, 1.0f));
 		this->m_ActorSprite.setOrigin(sf::Vector2f(0.0f, 0.0f));
-		this->m_Velocity.x = m_MoveSpeed;
+		this->m_Velocity.x = _settings.m_PlayerMoveSpeed;
 	}
 }
 
@@ -443,18 +463,25 @@ void cPlayer::IdlePlayer() {
 	this->m_ActorSprite.setTextureRect(this->m_TileMap.GetTile(this->m_IdleTile)); // Idle Tile
 }
 
-void cPlayer::Jump() {
-	// Player is touching the ground
-	if (this->m_Velocity.y == 0) {
-		this->m_HasDoubleJumped = false; // Reset Double Jump
-		this->m_Velocity.y = this->m_JumpHeight; // Jump
+void cPlayer::Jump(GameSettings& _settings) {
+	// Infinite Double Jump
+	if (_settings.m_PlayerInfiniteDoubleJump == true) {
+		this->m_Velocity.y = _settings.m_PlayerJumpHeight; // Jump
 	}
-	// Player is airborne
+	// Normal Double Jump
 	else {
-		// Double Jump
-		if (this->m_HasDoubleJumped == false) {
-			this->m_HasDoubleJumped = true; // Prevent extra Double Jumps
-			this->m_Velocity.y = this->m_JumpHeight; // Jump
+		// Player is touching the ground
+		if (this->m_Velocity.y == 0) {
+			this->m_HasDoubleJumped = false; // Reset Double Jump
+			this->m_Velocity.y = _settings.m_PlayerJumpHeight; // Jump
+		}
+		// Player is airborne
+		else {
+			// Double Jump
+			if (this->m_HasDoubleJumped == false) {
+				this->m_HasDoubleJumped = true; // Prevent extra Double Jumps
+				this->m_Velocity.y = _settings.m_PlayerJumpHeight; // Jump
+			}
 		}
 	}
 }
@@ -463,24 +490,12 @@ void cPlayer::SetPlayerPhaseThrough(bool _phase) {
 	this->m_HasPhasedThrough = _phase;
 }
 
-void cPlayer::SetPlayerLives(int _lives) {
-	this->m_Lives = _lives;
-}
-
 void cPlayer::SetPlayerMovedByPlatform(bool _hasMoved) {
 	this->m_HasMovedByPlatform = _hasMoved;
 }
 
 const bool cPlayer::GetPlayerPhaseThrough() const {
 	return this->m_HasPhasedThrough;
-}
-
-const int cPlayer::GetPlayerLives() const {
-	return this->m_Lives;
-}
-
-const int cPlayer::GetPlayerMaxLives() const {
-	return this->m_MaxLives;
 }
 
 const bool cPlayer::GetPlayerMovedByPlatform() const {

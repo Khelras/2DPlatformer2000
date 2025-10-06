@@ -17,14 +17,16 @@ class cEventManager {
 private:
 	// Windows
 	sf::RenderWindow* m_MainWindow; // Pointer to Main Window
-	sf::RenderWindow* m_DebugWindow; // Pointer to Debug Window
+
+	// Shift Key
+	bool m_IsShiftPressed;
 
 public:
 	cEventManager(); // Constructor
 	~cEventManager(); // Destructor
 
 	// Event Manager Functions
-	void Intialise(sf::RenderWindow& _mainWindow, sf::RenderWindow& _debugWindow); // Initialise the Event Manager
-	void Process(cPlayer* _player); // Process Event Manager
+	void Intialise(sf::RenderWindow& _mainWindow); // Initialise the Event Manager
+	void Process(GameSettings& _settings, sf::RenderWindow* _debugWindow, cPlayer* _player); // Process Event Manager
 };
 

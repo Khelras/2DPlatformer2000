@@ -38,9 +38,9 @@ void cUserInterfaceManager::Initialise(cTileMap* _tileMap) {
 	this->m_PlayerLivesUI[2].SetUIPosition(sf::Vector2f(-110.0f, -120.0f));
 }
 
-void cUserInterfaceManager::Process(cPlayer* _player) {
+void cUserInterfaceManager::Process(GameSettings& _settings, cPlayer* _player) {
 	// Player Lives Update Process
-	for (int i = _player->GetPlayerLives(); i < 3; i++) {
+	for (int i = _settings.m_PlayerLives; i < 3; i++) {
 		// Update the Player Lives
 		this->m_PlayerLivesUI[i].SetUIOpacity(100);
 	}

@@ -25,17 +25,16 @@ private:
 	cAnimation m_JumpPadAnimation;
 
 	// Jump Pad Attributes
-	int m_JumpPadHeight;
+	//int m_JumpPadHeight;
 
 public:
 	cJumpPad(); // Constructor
 	~cJumpPad(); // Destructor
 	
 	// Overridden Functions
-	void UpdateActor(float _deltaTime, std::vector<cActor*> _actors) override; // Override
+	void UpdateActor(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors) override; // Override
 
 	// Jump Pad Functions
 	sf::FloatRect GetJumpPadBounds(); // Returns the Custom Bounds of the Jump Pad
 	void PlayJumpPadAnimation(); // Plays the Jump Pad Animation
-	int GetJumpPadHeight(); // Returns the Height at which the Jump Pad launches
 };

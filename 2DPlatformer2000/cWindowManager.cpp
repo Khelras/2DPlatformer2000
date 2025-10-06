@@ -11,20 +11,52 @@
  ***********************************************************************/
 
 #include "cWindowManager.h"
+#include <string>
 
 cWindowManager::cWindowManager() {
     // Main Window
-    this->m_MainWindow.create(sf::VideoMode({ 1200, 1000 }), "Epic 2D Platformer 2000!");
+    this->m_MainWindow.create(sf::VideoMode({ 960, 960 }), "Epic 2D Platformer 2000!");
     this->m_MainWindow.setFramerateLimit(60); // Sets the Framerate Limit to 60fps for the Main Window
     this->m_MainWindow.setKeyRepeatEnabled(false); // Prevents repeats on KeyPressed Event
 
     // Debug Window
     this->m_DebugWindow.create(sf::VideoMode({ 600, 600 }), "Epic Debugger 2000!");
-    this->m_DebugWindow.setFramerateLimit(60); // Sets the Framerate Limit to 60fps for the Debug Window
     this->m_DebugWindow.close();
+
+    // Debug Text
+    if (this->m_DebugFont.openFromFile("fonts/determination.ttf")) {
+        // Font Loaded Successfully
+        this->m_DebugText = new sf::Text(this->m_DebugFont);
+        this->m_DebugText->setCharacterSize(30); // Set Text Size to 20px
+        this->m_DebugText->setFillColor(sf::Color::White); // Set Text Color to While
+
+        // Game Settings String
+        std::string sGameSettings =
+            "Game Settings:\n"
+            "[G] Actor Gravity\n"
+            "[S] Actor Speed Scalar\n"
+            "[L] Player Lives\n"
+            "[M] Player Move Speed\n"
+            "[J] Player Jump Height\n"
+            "[I] Player Infinite Double Jump\n"
+            "[P] Jump Pad Height\n"
+            "[SHIFT + ...] Inverts\n"
+            "\n"
+            "Reset:\n"
+            "[R] Reset Game Settings to Default\n"
+            "[SHIFT + R] Restart the Whole Game";
+
+        // Set the Debug Text to the Game Settings String
+        this->m_DebugText->setString(sGameSettings);
+    }
+    else {
+        // Loading Failed
+        this->m_DebugText = nullptr;
+    }
 }
 
 cWindowManager::~cWindowManager() {
+    delete(this->m_DebugText);
 }
 
 bool cWindowManager::Process() {
@@ -37,39 +69,55 @@ bool cWindowManager::Process() {
     return false;
 }
 
-void cWindowManager::Clear() {
+void cWindowManager::Clear(bool _onlyDebugWindow) {
     // Main Window
-    if (this->m_MainWindow.isOpen()) {
-        this->m_MainWindow.clear();
+    if (_onlyDebugWindow == false) {
+        if (this->m_MainWindow.isOpen()) {
+            this->m_MainWindow.clear();
+        }
     }
-
     // Debug Window
-    if (this->m_DebugWindow.isOpen()) {
-        this->m_DebugWindow.clear();
+    else if (_onlyDebugWindow == true) {
+        if (this->m_DebugWindow.isOpen()) {
+            this->m_DebugWindow.clear();
+        }
     }
 }
 
-void cWindowManager::Draw() {
+void cWindowManager::Draw(bool _onlyDebugWindow) {
     // Main Window
-    if (this->m_MainWindow.isOpen()) {
-        
+    if (_onlyDebugWindow == false) {
+        if (this->m_MainWindow.isOpen()) {
+            
+        }
     }
-
     // Debug Window
-    if (this->m_DebugWindow.isOpen()) {
-        
+    else if (_onlyDebugWindow == true) {
+        if (this->m_DebugWindow.isOpen()) {
+            // Ensure Debug Text Exists
+            if (this->m_DebugText) {
+                // Draw the Debug Text
+                float fTextCenterX = (this->m_DebugWindow.getSize().x - this->m_DebugText->getLocalBounds().size.x) / 2;
+                float fTextCenterY = (this->m_DebugWindow.getSize().y - this->m_DebugText->getLocalBounds().size.y) / 2;
+                this->m_DebugText->setPosition(sf::Vector2f(fTextCenterX, fTextCenterY));
+                this->m_DebugWindow.draw(*(this->m_DebugText));
+            }
+        }
     }
 }
 
-void cWindowManager::Display() {
+void cWindowManager::Display(bool _onlyDebugWindow) {
     // Main Window
-    if (this->m_MainWindow.isOpen()) {
-        this->m_MainWindow.display();
+    if (_onlyDebugWindow == false) {
+        if (this->m_MainWindow.isOpen()) {
+            this->m_MainWindow.display();
+        }
     }
-
     // Debug Window
-    if (this->m_DebugWindow.isOpen()) {
-        this->m_DebugWindow.display();
+    else if (_onlyDebugWindow == true) {
+        if (this->m_DebugWindow.isOpen()) {
+            this->m_DebugWindow.display();
+        }
     }
 }
 
@@ -77,6 +125,6 @@ sf::RenderWindow& cWindowManager::GetMainWindow() {
     return this->m_MainWindow;
 }
 
-sf::RenderWindow& cWindowManager::GetDebugWindow() {
-    return this->m_DebugWindow;
+sf::RenderWindow* cWindowManager::GetDebugWindow() {
+    return &(this->m_DebugWindow);
 }

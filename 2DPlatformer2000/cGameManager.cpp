@@ -26,11 +26,11 @@ cGameManager::cGameManager() {
 	this->m_Actors.push_back(this->m_Player);
 
 	// Managers
-	this->m_EventManager.Intialise(this->m_WindowManager.GetMainWindow(), this->m_WindowManager.GetDebugWindow());
+	this->m_EventManager.Intialise(this->m_WindowManager.GetMainWindow());
 	this->m_CameraManager.Initialise(this->m_WindowManager.GetMainWindow(), sf::Vector2f(0.0f, 0.0f));
 	this->m_UserInterfaceManager.Initialise(&(this->m_TileMap));
 
-	// Other
+	// Delta Time
 	this->m_DeltaTime = 0;
 }
 
@@ -161,45 +161,51 @@ void cGameManager::Process() {
 		// Delta Time
 		this->m_DeltaTime = Clock.restart().asSeconds();
 
-		// User Interface Processing
-		this->m_UserInterfaceManager.Process(this->m_Player);
-
 		// Event Processing
-		this->m_EventManager.Process(this->m_Player);
-
-		// Player
-		this->PlayerControls(); // Player Controls
-
-		// Update Actors
-		for (cActor* Actor : this->m_Actors) {
-			Actor->UpdateActor(this->m_DeltaTime, this->m_Actors);
-		}
+		this->m_EventManager.Process(this->m_GameSettings, this->m_WindowManager.GetDebugWindow(), this->m_Player);
 
 		// Clear
-		this->m_WindowManager.Clear();
+		this->m_WindowManager.Clear(this->m_WindowManager.GetDebugWindow()->isOpen());
 
-		// Draw Actors
-		for (cActor* Actor : this->m_Actors) {
-			Actor->DrawActor(this->m_WindowManager.GetMainWindow());
+		// If Debug Window is Closed
+		if (this->m_WindowManager.GetDebugWindow()->isOpen() == false) {
+			// User Interface Processing
+			this->m_UserInterfaceManager.Process(this->m_GameSettings, this->m_Player);
+
+			// Player
+			this->PlayerControls(); // Player Controls
+
+			// Update Actors
+			for (cActor* Actor : this->m_Actors) {
+				Actor->UpdateActor(this->m_GameSettings, this->m_DeltaTime, this->m_Actors);
+			}
+
+			// Draw Actors
+			for (cActor* Actor : this->m_Actors) {
+				Actor->DrawActor(this->m_WindowManager.GetMainWindow());
+			}
+
+			// Draw User Interfaces
+			this->m_UserInterfaceManager.DrawUI(this->m_WindowManager.GetMainWindow());
 		}
 
-		// Draw User Interfaces
-		this->m_UserInterfaceManager.DrawUI(this->m_WindowManager.GetMainWindow());
+		// Draw
+		this->m_WindowManager.Draw(this->m_WindowManager.GetDebugWindow()->isOpen());
 
 		// Display
-		this->m_WindowManager.Display();
+		this->m_WindowManager.Display(this->m_WindowManager.GetDebugWindow()->isOpen());
 	}
 }
 
 void cGameManager::PlayerControls() {
 	// Left Movement
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) {
-		this->m_Player->MovePlayer(MovementDirection::LEFT);
+		this->m_Player->MovePlayer(MovementDirection::LEFT, this->m_GameSettings);
 	}
 
 	// Right
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) {
-		this->m_Player->MovePlayer(MovementDirection::RIGHT);
+		this->m_Player->MovePlayer(MovementDirection::RIGHT, this->m_GameSettings);
 	}
 
 }

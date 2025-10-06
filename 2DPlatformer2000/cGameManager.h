@@ -11,6 +11,7 @@
  ***********************************************************************/
 
 #pragma once
+#include "GameSettings.h"
 #include "cWindowManager.h"
 #include "cEventManager.h"
 #include "cCameraManager.h"
@@ -18,7 +19,9 @@
 #include "cTileMap.h"
 
 class cGameManager {
-private:
+	// Game Settings
+	GameSettings m_GameSettings;
+
 	// Tile Map
 	cTileMap m_TileMap;
 
@@ -32,6 +35,7 @@ private:
 	cCameraManager m_CameraManager;
 	cUserInterfaceManager m_UserInterfaceManager;
 
+	// Delta Time
 	float m_DeltaTime;
 
 public:

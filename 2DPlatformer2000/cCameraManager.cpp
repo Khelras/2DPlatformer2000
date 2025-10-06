@@ -24,8 +24,8 @@ void cCameraManager::Initialise(sf::RenderWindow& _mainWindow, sf::Vector2f _pos
 	this->m_MainWindow = &_mainWindow;
 
 	// Camera Dimensions
-	int iCameraDimensionX = _mainWindow.getSize().x / 4; // Quarter of Window (4x Zoom)
-	int iCameraDimensionY = _mainWindow.getSize().y / 4; // Quarter of Window (4x Zoom)
+	int iCameraDimensionX = _mainWindow.getSize().x / 3; // Third of Window (3x Zoom)
+	int iCameraDimensionY = _mainWindow.getSize().y / 3; // Third of Window (3x Zoom)
 	sf::Vector2f CameraDimensions(iCameraDimensionX, iCameraDimensionY); 
 
 	// Camera

@@ -23,16 +23,16 @@ cJumpPad::cJumpPad() : cActor(ActorType::JUMP_PAD),
 	this->m_ActivationTileEnd = 165;
 
 	// Jump Pad Attributes
-	this->m_JumpPadHeight = -30.0f;
+	//this->m_JumpPadHeight = -30.0f;
 }
 
 cJumpPad::~cJumpPad() {
 	
 }
 
-void cJumpPad::UpdateActor(float _deltaTime, std::vector<cActor*> _actors) {
+void cJumpPad::UpdateActor(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors) {
 	// Calls the UpdateActor() Function from the cActor Base Class
-	cActor::UpdateActor(_deltaTime, _actors);
+	cActor::UpdateActor(_settings, _deltaTime, _actors);
 
 	// Extend Functionality
 	this->m_JumpPadAnimation.UpdateAnimation(_deltaTime);
@@ -55,8 +55,4 @@ sf::FloatRect cJumpPad::GetJumpPadBounds() {
 
 void cJumpPad::PlayJumpPadAnimation() {
 	this->m_JumpPadAnimation.PlayAnimation();
-}
-
-int cJumpPad::GetJumpPadHeight() {
-	return this->m_JumpPadHeight;
 }

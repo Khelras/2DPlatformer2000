@@ -30,7 +30,7 @@ void cActor::DrawActor(sf::RenderWindow& _window) {
 	_window.draw(this->m_ActorSprite);
 }
 
-void cActor::UpdateActor(float _deltaTime, std::vector<cActor*> _actors) {
+void cActor::UpdateActor(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors) {
 	// Check if Actor is Dynamic because Static Actors do not move
 	if (this->m_IsDynamic == false) return;
 
@@ -45,7 +45,7 @@ void cActor::UpdateActor(float _deltaTime, std::vector<cActor*> _actors) {
 
 		// Now check if Actor is NOT the ground
 		if (CollisionActor == nullptr) {
-			this->m_Velocity.y += this->m_Gravity * _deltaTime; // Gravity
+			this->m_Velocity.y += _settings.m_ActorGravity * _deltaTime; // Gravity
 		}
 	}
 
@@ -53,16 +53,16 @@ void cActor::UpdateActor(float _deltaTime, std::vector<cActor*> _actors) {
 	this->m_Velocity += this->m_Acceleration * _deltaTime;
 
 	// Apply Movement
-	this->MoveX(_deltaTime, _actors);
-	this->MoveY(_deltaTime, _actors);
+	this->MoveX(_settings, _deltaTime, _actors);
+	this->MoveY(_settings, _deltaTime, _actors);
 
 	// Set Sprite Position
 	this->m_ActorSprite.setPosition(this->m_ActorPosition);
 }
 
-void cActor::MoveX(float _deltaTime, std::vector<cActor*> _actors) {
+void cActor::MoveX(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors) {
 	// Floating-point Movement amount for x-axis
-	float fMoveX = this->m_Velocity.x * this->m_SpeedScalar * _deltaTime;
+	float fMoveX = this->m_Velocity.x * _settings.m_ActorSpeedScalar * _deltaTime;
 	
 	// Converting to precise-point Movement for x-axis
 	this->m_MoveRemainder.x += fMoveX; // First add to MoveRemainder x-axis
@@ -113,9 +113,9 @@ void cActor::MoveX(float _deltaTime, std::vector<cActor*> _actors) {
 	}
 }
 
-void cActor::MoveY(float _deltaTime, std::vector<cActor*> _actors) {
+void cActor::MoveY(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors) {
 	// Floating-point Movement amount for y-axis
-	float fMoveY = this->m_Velocity.y * this->m_SpeedScalar * _deltaTime;
+	float fMoveY = this->m_Velocity.y * _settings.m_ActorSpeedScalar * _deltaTime;
 	
 	// Converting to precise-point Movement for y-axis
 	this->m_MoveRemainder.y += fMoveY; // First add to MoveRemainder y-axis
@@ -369,14 +369,6 @@ bool cActor::GetActorDynamic() const {
 
 bool cActor::GetActorHasGravity() const {
 	return this->m_HasGravity;
-}
-
-const float cActor::GetActorGravity() const {
-	return this->m_Gravity;
-}
-
-const float cActor::GetActorSpeedScalar() const {
-	return this->m_SpeedScalar;
 }
 
 sf::Vector2f cActor::GetActorVelocity() const {

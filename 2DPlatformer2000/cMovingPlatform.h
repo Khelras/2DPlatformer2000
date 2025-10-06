@@ -35,9 +35,7 @@ public:
 	~cMovingPlatform(); // Destructor
 
 	// Overridden Functions
-	void UpdateActor(float _deltaTime, std::vector<cActor*> _actors) override; // Update Actor
-	void MoveX(float _deltaTime, std::vector<cActor*> _actors) override; // Move X
-	void MoveY(float _deltaTime, std::vector<cActor*> _actors) override; // Move Y
+	void UpdateActor(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors) override; // Update Actor
 	cActor* CheckCollision(sf::FloatRect _bounds, std::vector<cActor*> _actors) override; // Check Collision
 	void SetActorPosition(sf::Vector2f _position) override; // Set Actor Position
 };
