@@ -35,7 +35,7 @@ public:
 	void UpdateActor(float _deltaTime, std::vector<cActor*> _actors) override; // Override
 
 	// Jump Pad Functions
-	sf::FloatRect GetJumpPadBounds(); // Return the Size of the the Jump Pad
+	sf::FloatRect GetJumpPadBounds(); // Returns the Custom Bounds of the Jump Pad
 	void PlayJumpPadAnimation(); // Plays the Jump Pad Animation
 	int GetJumpPadHeight(); // Returns the Height at which the Jump Pad launches
 };

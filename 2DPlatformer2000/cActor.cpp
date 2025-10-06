@@ -13,6 +13,9 @@
 #include "cActor.h"
 #include "cPlayer.h"
 #include "cJumpPad.h"
+#include "cSpike.h"
+#include "cKey.h"
+#include "cDoor.h"
 
 cActor::cActor(ActorType _actorType) : m_ActorSprite(m_TileMap.GetTileMapTexture()) {
 	this->SetActorType(_actorType);
@@ -198,6 +201,48 @@ cActor* cActor::CheckCollision(sf::FloatRect _bounds, std::vector<cActor*> _acto
 			continue;
 		}
 
+		// If Actor is a Spike
+		if (Actor->m_ActorType == ActorType::SPIKE) {
+			// Dynamic Cast cActor to cSpike
+			cSpike* Spike = dynamic_cast<cSpike*>(Actor);
+
+			// Use Spike Bounds
+			if (_bounds.findIntersection(Spike->GetSpikeBounds())) {
+				// Return the Actor
+				return Actor;
+			}
+
+			continue;
+		}
+
+		// If Actor is a Key
+		if (Actor->m_ActorType == ActorType::KEY) {
+			// Dynamic Cast cActor to cKey
+			cKey* Key = dynamic_cast<cKey*>(Actor);
+
+			// Use Key Bounds
+			if (_bounds.findIntersection(Key->GetKeyBounds())) {
+				// Return he Actor
+				return Actor;
+			}
+
+			continue;
+		}
+
+		// If Actor is a Door
+		if (Actor->m_ActorType == ActorType::DOOR) {
+			// Dynamic Cast cActor to cDoor
+			cDoor* Door = dynamic_cast<cDoor*>(Actor);
+
+			// Use Door Bounds
+			if (_bounds.findIntersection(Door->GetDoorBounds())) {
+				// Return he Actor
+				return Actor;
+			}
+
+			continue;
+		}
+
 		// Check the Intersection of the FloatRect bounds
 		if (_bounds.findIntersection(Actor->m_ActorSprite.getGlobalBounds())) {
 			// Return the Actor
@@ -237,6 +282,24 @@ void cActor::SetActorType(ActorType _type) {
 		} break;
 
 		case (ActorType::JUMP_PAD): {
+			this->m_IsDynamic = false;
+			this->m_CollisionType = CollisionType::FULL;
+			this->m_HasGravity = false;
+		} break;
+
+		case (ActorType::SPIKE): {
+			this->m_IsDynamic = false;
+			this->m_CollisionType = CollisionType::FULL;
+			this->m_HasGravity = false;
+		} break;
+
+		case (ActorType::KEY): {
+			this->m_IsDynamic = false;
+			this->m_CollisionType = CollisionType::FULL;
+			this->m_HasGravity = false;
+		} break;
+
+		case (ActorType::DOOR): {
 			this->m_IsDynamic = false;
 			this->m_CollisionType = CollisionType::FULL;
 			this->m_HasGravity = false;

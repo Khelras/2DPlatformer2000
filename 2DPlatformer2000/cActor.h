@@ -21,8 +21,10 @@ enum class ActorType {
 	SOLID = 1, // Static Solid
 	SOLID_THROUGH = 2, // Players can Jump or Fall through this Solid
 	SOLID_THROUGH_MOVING = 3, // Horizontally Dynamic Solid with Jump/Fall through
-	JUMP_PAD = 4,
-	SPIKE = 5,
+	JUMP_PAD = 4, // The Jump Pad Actor
+	SPIKE = 5, // The Spike Actor
+	KEY = 6, // The Key Actor
+	DOOR = 7, // The Door Actor
 	PLAYER = 10, // The Player Actor
 	SOLID_PUSHABLE = 11 // Fully Dynamic Solids, Has Gravity, and can be Pushed
 };

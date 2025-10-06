@@ -31,8 +31,8 @@ private:
 	float EaseInOutCubic(float _start, float _end, float _alpha);
 
 public:
-	cMovingPlatform();
-	~cMovingPlatform();
+	cMovingPlatform(); // Constructor
+	~cMovingPlatform(); // Destructor
 
 	// Overridden Functions
 	void UpdateActor(float _deltaTime, std::vector<cActor*> _actors) override; // Update Actor

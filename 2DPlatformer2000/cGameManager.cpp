@@ -16,6 +16,9 @@
 #include "cPlayer.h"
 #include "cJumpPad.h"
 #include "cMovingPlatform.h"
+#include "cSpike.h"
+#include "cKey.h"
+#include "cDoor.h"
 
 cGameManager::cGameManager() {
 	// Player Actor
@@ -119,7 +122,6 @@ void cGameManager::Process() {
 	this->m_Actors[17]->SetActorPosition(sf::Vector2f(-80.0f, 0.0f));
 
 	this->m_Actors.push_back(new cJumpPad());
-	this->m_Actors[18]->SetActorSprite(3, 8);
 	this->m_Actors[18]->SetActorPosition(sf::Vector2f(48.0f, 0.0f));
 
 	
@@ -141,6 +143,18 @@ void cGameManager::Process() {
 	this->m_Actors.push_back(new cMovingPlatform());
 	this->m_Actors[22]->SetActorSprite(6, 7);
 	this->m_Actors[22]->SetActorPosition(sf::Vector2f(0.0f, 64.0f));
+
+	// Random Spike
+	this->m_Actors.push_back(new cSpike());
+	this->m_Actors[23]->SetActorPosition(sf::Vector2f(96.0f, 64.0f));
+
+	// Key
+	this->m_Actors.push_back(new cKey());
+	this->m_Actors[24]->SetActorPosition(sf::Vector2f(96.0f, -64.0f));
+
+	// Door
+	this->m_Actors.push_back(new cDoor());
+	this->m_Actors[25]->SetActorPosition(sf::Vector2f(0.0f, -48.0f));
 
 	// Starts Window Manager (Main Game Loop)
 	while (this->m_WindowManager.Process()) {

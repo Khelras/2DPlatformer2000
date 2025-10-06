@@ -28,8 +28,10 @@ cPlayer::cPlayer() : cActor(ActorType::PLAYER),
 	this->m_Lives = this->m_MaxLives; // Start with Max Lives
 	this->m_MoveSpeed = 8.0f;
 	this->m_JumpHeight = -20.0f;
+	this->m_HasKey = false;
 	this->m_HasDoubleJumped = false;
 	this->m_HasPhasedThrough = false;
+	this->m_HasMovedByPlatform = false;
 }
 
 cPlayer::~cPlayer() {
@@ -154,6 +156,36 @@ void cPlayer::MoveX(float _deltaTime, std::vector<cActor*> _actors) {
 		}
 		// There IS a collision
 		else if (CollisionActor != nullptr) {
+			// If the Collision Actor is a Spike
+			if (CollisionActor->GetActorType() == ActorType::SPIKE) {
+				// Check if Last Life
+				if (this->m_Lives > 0) {
+					// Decrease Lives
+					this->m_Lives--;
+					
+					// TODO: Restart Level
+					this->m_ActorPosition = sf::Vector2f(0.0f, 0.0f); // REMOVE LATER
+				}
+				// Last Life, so Player Died
+				else {
+					// TODO: Insert a Restart Game
+				}
+
+				// Stop any further movement
+				return;
+			}
+			// If the Collision Actor is a Key
+			else if (CollisionActor->GetActorType() == ActorType::KEY) {
+				// Player obtains Key
+				this->m_HasKey = true;
+				CollisionActor->SetActorPosition(sf::Vector2f(-256.0f, -256.0f)); // TODO
+			}
+			// If the Collision Actor is a Door
+			else if (CollisionActor->GetActorType() == ActorType::DOOR) {
+				// TODO: Go to next Level
+				this->m_ActorPosition = sf::Vector2f(0.0f, 0.0f); // REMOVE LATER
+			}
+
 			// If the Collision Actor is an Actor Type of Solid Through
 			if (CollisionActor->GetActorType() == ActorType::SOLID_THROUGH
 				|| CollisionActor->GetActorType() == ActorType::SOLID_THROUGH_MOVING) {
@@ -271,6 +303,36 @@ void cPlayer::MoveY(float _deltaTime, std::vector<cActor*> _actors) {
 		}
 		// There IS a collision
 		else if (CollisionActor != nullptr) {
+			// If the Collision Actor is a Spike
+			if (CollisionActor->GetActorType() == ActorType::SPIKE) {
+				// Check if Last Life
+				if (this->m_Lives > 0) {
+					// Decrease Lives
+					this->m_Lives--;
+
+					// TODO: Restart Level
+					this->m_ActorPosition = sf::Vector2f(0.0f, 0.0f); // REMOVE LATER
+				}
+				// Last Life, so Player Died
+				else {
+					// TODO: Insert a Restart Game
+				}
+
+				// Stop any further movement
+				return;
+			}
+			// If the Collision Actor is a Key
+			else if (CollisionActor->GetActorType() == ActorType::KEY) {
+				// Player obtains Key
+				this->m_HasKey = true;
+				CollisionActor->SetActorPosition(sf::Vector2f(-256.0f, -256.0f)); // TODO
+			}
+			// If the Collision Actor is a Door
+			else if (CollisionActor->GetActorType() == ActorType::DOOR) {
+				// TODO: Go to next Level
+				this->m_ActorPosition = sf::Vector2f(0.0f, 0.0f); // REMOVE LATER
+			}
+
 			// Going Upwards
 			if (iDirectionY < 0) {
 				// If the Collision Actor is an Actor Type of Solid Through

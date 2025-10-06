@@ -67,6 +67,15 @@
     <ClCompile Include="cMovingPlatform.cpp">
       <Filter>Source Files\Actors</Filter>
     </ClCompile>
+    <ClCompile Include="cSpike.cpp">
+      <Filter>Source Files\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="cKey.cpp">
+      <Filter>Source Files\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="cDoor.cpp">
+      <Filter>Source Files\Actors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cActor.h">
@@ -106,6 +115,15 @@
       <Filter>Source Files\Animation</Filter>
     </ClInclude>
     <ClInclude Include="cMovingPlatform.h">
+      <Filter>Source Files\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="cSpike.h">
+      <Filter>Source Files\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="cKey.h">
+      <Filter>Source Files\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="cDoor.h">
       <Filter>Source Files\Actors</Filter>
     </ClInclude>
   </ItemGroup>

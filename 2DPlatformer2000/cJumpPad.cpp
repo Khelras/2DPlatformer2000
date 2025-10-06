@@ -14,6 +14,9 @@
 
 cJumpPad::cJumpPad() : cActor(ActorType::JUMP_PAD),
 	m_JumpPadAnimation(PlaybackType::REVERSE_ONCE, this->m_TileMap, this->m_ActorSprite, 163, 165) {
+	// Jump Pad Sprite
+	this->m_ActorSprite.setTextureRect(this->m_TileMap.GetTile(163));
+
 	// Jump Pad Tiles
 	this->m_IdleTile = 163;
 	this->m_ActivationTileStart = 163;
