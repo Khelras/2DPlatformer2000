@@ -31,6 +31,7 @@ class cGameManager {
 
 	// Other
 	float m_DeltaTime;
+	bool m_IsTutorial;
 
 public:
 	cGameManager(); // Constructor

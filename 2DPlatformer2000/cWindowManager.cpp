@@ -22,8 +22,36 @@ cWindowManager::cWindowManager() {
     this->m_DebugWindow.create(sf::VideoMode({ 600, 600 }), "Epic Debugger 2000!");
     this->m_DebugWindow.close();
 
+    // Tutorial Text
+    if (this->m_TutorialFont.openFromFile(this->m_DefaultFont)) {
+        // Font Loaded Successfully
+        this->m_TutorialText = new sf::Text(this->m_TutorialFont);
+        this->m_TutorialText->setCharacterSize(12); // Set Text Size to 12px
+        this->m_TutorialText->setFillColor(sf::Color::White); // Set Text Color to White
+
+        // Tutorial Text
+        std::string sTutorial =
+            "Welcome to Epic Platformer 2000!\n"
+            "Controls:\n"
+            "- Movement = Arrow-Keys\n"
+            "- Debug Window = Esc-Key\n"
+            "\n"
+            "Extra Info:\n"
+            "- Debug Window must be closed to Play!\n"
+            "- There is Double-Jump! :)\n"
+            "\n"
+            "Press Enter-Key to Start Playing! :)";
+
+        // Set the Tutorial Text to the Tutorial String
+        this->m_TutorialText->setString(sTutorial);
+    }
+    else {
+        // Loading Failed
+        this->m_TutorialText = nullptr;
+    }
+
     // Debug Text
-    if (this->m_DebugFont.openFromFile("fonts/determination.ttf")) {
+    if (this->m_DebugFont.openFromFile(this->m_DefaultFont)) {
         // Font Loaded Successfully
         this->m_DebugText = new sf::Text(this->m_DebugFont);
         this->m_DebugText->setCharacterSize(29); // Set Text Size to 29px
@@ -57,7 +85,8 @@ cWindowManager::cWindowManager() {
 }
 
 cWindowManager::~cWindowManager() {
-    delete(this->m_DebugText);
+    if (this->m_TutorialText != nullptr) delete(this->m_TutorialText);
+    if (this->m_DebugText != nullptr)delete(this->m_DebugText);
 }
 
 bool cWindowManager::Process() {
@@ -68,6 +97,23 @@ bool cWindowManager::Process() {
 
     // Return false otherwise
     return false;
+}
+
+void cWindowManager::ProcessTutorial() {
+    // Clear
+    this->Clear(false);
+
+    // Ensure Tutorial Text Exists
+    if (this->m_TutorialText != nullptr) {
+        // Draw the Tutorial Text
+        float fTextCenterX = ((this->m_MainWindow.getSize().x / 3.0f) - this->m_TutorialText->getLocalBounds().size.x) / 2.0f;
+        float fTextCenterY = ((this->m_MainWindow.getSize().y / 3.0f) - this->m_TutorialText->getLocalBounds().size.y) / 2.0f;
+        this->m_TutorialText->setPosition(sf::Vector2f(fTextCenterX, fTextCenterY));
+        this->m_MainWindow.draw(*(this->m_TutorialText));
+    }
+
+    // Display
+    this->Display(false);
 }
 
 void cWindowManager::Clear(bool _onlyDebugWindow) {

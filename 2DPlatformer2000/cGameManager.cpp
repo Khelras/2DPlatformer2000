@@ -19,6 +19,7 @@ cGameManager::cGameManager() {
 
 	// Other
 	this->m_DeltaTime = 0.0f;
+	this->m_IsTutorial = true;
 }
 
 cGameManager::~cGameManager() {
@@ -30,6 +31,17 @@ void cGameManager::Process() {
 
 	// Starts Window Manager (Main Game Loop)
 	while (this->m_WindowManager.Process()) {
+		// Tutorial Screen
+		if (this->m_IsTutorial == true) {
+			// Event Mananger Processing for Tutorial
+			this->m_EventManager.ProcessTutorial(this->m_IsTutorial);
+
+			// Window Manager Processing for Tutorial
+			this->m_WindowManager.ProcessTutorial();
+
+			continue;
+		}
+
 		// Delta Time
 		this->m_DeltaTime = Clock.restart().asSeconds();
 

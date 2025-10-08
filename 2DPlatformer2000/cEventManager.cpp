@@ -222,3 +222,22 @@ void cEventManager::Process(GameSettings& _settings, sf::RenderWindow* _debugWin
 		}
 	}
 }
+
+void cEventManager::ProcessTutorial(bool& _isTutorial) {
+	// Events for the Main Window
+	while (const std::optional event = this->m_MainWindow->pollEvent()) {
+		// Close Event
+		if (event->is<sf::Event::Closed>()) {
+			this->m_MainWindow->close(); // Close Window
+		}
+
+		// Key Pressed Event
+		if (const auto* key = event->getIf<sf::Event::KeyPressed>()) {
+			// Press Enter
+			if (key->scancode == sf::Keyboard::Scancode::Enter) {
+				// Close Tutorial
+				_isTutorial = false;
+			}
+		}
+	}
+}

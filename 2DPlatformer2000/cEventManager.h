@@ -28,5 +28,6 @@ public:
 	// Event Manager Functions
 	void Intialise(sf::RenderWindow& _mainWindow); // Initialise the Event Manager
 	void Process(GameSettings& _settings, sf::RenderWindow* _debugWindow, cLevelManager& _levelManager); // Process Event Manager
+	void ProcessTutorial(bool& _isTutorial); // Process Events for Tutorial Screen
 };
 
