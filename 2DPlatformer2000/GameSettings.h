@@ -21,7 +21,7 @@ private:
 	// Default Player Settings
 	const int m_DefaultPlayerLives = 3; // Default Player Lives
 	const float m_DefaultPlayerMoveSpeed = 8.0f; // Default Player Movement Speed
-	const float m_DefaultPlayerJumpHeight = -20.0f; // Default Player Jump Height
+	const float m_DefaultPlayerJumpHeight = -21.0f; // Default Player Jump Height
 	const bool m_DefaultPlayerInfiniteDoubleJump = false; // Default Player Infinite Double Jump
 
 	// Default Jump Pad Settings
@@ -40,6 +40,11 @@ public:
 
 	// Jump Pad Settings
 	float m_JumpPadHeight = -30.0f; // Jump Pad Height
+
+	// Reset Player Lives
+	void ResetPlayerLives() {
+		this->m_PlayerLives = this->m_DefaultPlayerLives;
+	}
 
 	// Reset Function
 	void ResetSettings() {

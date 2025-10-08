@@ -192,7 +192,7 @@
     <ClCompile Include="cGameManager.cpp" />
     <ClCompile Include="cJumpPad.cpp" />
     <ClCompile Include="cKey.cpp" />
-    <ClCompile Include="cLevel.cpp" />
+    <ClCompile Include="cLevelManager.cpp" />
     <ClCompile Include="cMovingPlatform.cpp" />
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cSpike.cpp" />
@@ -212,7 +212,7 @@
     <ClInclude Include="cGameManager.h" />
     <ClInclude Include="cJumpPad.h" />
     <ClInclude Include="cKey.h" />
-    <ClInclude Include="cLevel.h" />
+    <ClInclude Include="cLevelManager.h" />
     <ClInclude Include="cMovingPlatform.h" />
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cSpike.h" />

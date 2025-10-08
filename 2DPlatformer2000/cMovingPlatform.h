@@ -31,12 +31,13 @@ private:
 	float EaseInOutCubic(float _start, float _end, float _alpha);
 
 public:
-	cMovingPlatform(); // Constructor
+	cMovingPlatform(cTileMap* _tileMap); // Constructor
 	~cMovingPlatform(); // Destructor
 
 	// Overridden Functions
 	void UpdateActor(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors) override; // Update Actor
 	cActor* CheckCollision(sf::FloatRect _bounds, std::vector<cActor*> _actors) override; // Check Collision
 	void SetActorPosition(sf::Vector2f _position) override; // Set Actor Position
+	void SetActorDefaultPosition(sf::Vector2f _position) override; // Set Actor Default Position
 };
 

@@ -38,7 +38,7 @@ float cMovingPlatform::EaseInOutCubic(float _start, float _end, float _alpha) {
 	return _start + ((_end - _start) * fEase);
 }
 
-cMovingPlatform::cMovingPlatform() : cActor(ActorType::SOLID_THROUGH_MOVING) {
+cMovingPlatform::cMovingPlatform(cTileMap* _tileMap) : cActor(_tileMap, ActorType::SOLID_THROUGH_MOVING) {
 	this->m_MoveSpeed = 16.0f; // Default to 16.0 Move Speed
 	this->m_IsMovingLeft = false; // Default to Right
 	this->m_TimeAccumulator = 0.0f; // Start at 0.0f
@@ -152,4 +152,9 @@ void cMovingPlatform::SetActorPosition(sf::Vector2f _position) {
 	// Set the Moving Platform Position to Start Position
 	this->m_ActorPosition = this->m_StartPosition;
 	this->m_ActorSprite.setPosition(this->m_StartPosition);
+}
+
+void cMovingPlatform::SetActorDefaultPosition(sf::Vector2f _position) {
+	this->m_ActorDefaultPosition = _position;
+	this->SetActorPosition(_position);
 }

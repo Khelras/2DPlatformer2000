@@ -11,7 +11,7 @@
  ***********************************************************************/
 
 #pragma once
-#include "cPlayer.h"
+#include "cLevelManager.h"
 
 class cEventManager {
 private:
@@ -27,6 +27,6 @@ public:
 
 	// Event Manager Functions
 	void Intialise(sf::RenderWindow& _mainWindow); // Initialise the Event Manager
-	void Process(GameSettings& _settings, sf::RenderWindow* _debugWindow, cPlayer* _player); // Process Event Manager
+	void Process(GameSettings& _settings, sf::RenderWindow* _debugWindow, cLevelManager& _levelManager); // Process Event Manager
 };
 

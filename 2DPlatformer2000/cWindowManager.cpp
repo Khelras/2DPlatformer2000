@@ -11,11 +11,10 @@
  ***********************************************************************/
 
 #include "cWindowManager.h"
-#include <string>
 
 cWindowManager::cWindowManager() {
     // Main Window
-    this->m_MainWindow.create(sf::VideoMode({ 960, 960 }), "Epic 2D Platformer 2000!");
+    this->m_MainWindow.create(sf::VideoMode({ (20 * 16) * 3, (18 * 16) * 3}), "Epic 2D Platformer 2000!"); // 20 x 18 (Tiles)
     this->m_MainWindow.setFramerateLimit(60); // Sets the Framerate Limit to 60fps for the Main Window
     this->m_MainWindow.setKeyRepeatEnabled(false); // Prevents repeats on KeyPressed Event
 
@@ -27,8 +26,8 @@ cWindowManager::cWindowManager() {
     if (this->m_DebugFont.openFromFile("fonts/determination.ttf")) {
         // Font Loaded Successfully
         this->m_DebugText = new sf::Text(this->m_DebugFont);
-        this->m_DebugText->setCharacterSize(30); // Set Text Size to 20px
-        this->m_DebugText->setFillColor(sf::Color::White); // Set Text Color to While
+        this->m_DebugText->setCharacterSize(29); // Set Text Size to 29px
+        this->m_DebugText->setFillColor(sf::Color::White); // Set Text Color to White
 
         // Game Settings String
         std::string sGameSettings =
@@ -44,7 +43,9 @@ cWindowManager::cWindowManager() {
             "\n"
             "Reset:\n"
             "[R] Reset Game Settings to Default\n"
-            "[SHIFT + R] Restart the Whole Game";
+            "[SHIFT + R] Restart the Whole Game\n"
+            "\n"
+            "Press [ESC] to Save Changes!";
 
         // Set the Debug Text to the Game Settings String
         this->m_DebugText->setString(sGameSettings);
@@ -73,7 +74,7 @@ void cWindowManager::Clear(bool _onlyDebugWindow) {
     // Main Window
     if (_onlyDebugWindow == false) {
         if (this->m_MainWindow.isOpen()) {
-            this->m_MainWindow.clear();
+            this->m_MainWindow.clear(sf::Color(20, 20, 20));
         }
     }
     // Debug Window
@@ -88,17 +89,17 @@ void cWindowManager::Draw(bool _onlyDebugWindow) {
     // Main Window
     if (_onlyDebugWindow == false) {
         if (this->m_MainWindow.isOpen()) {
-            
+
         }
     }
     // Debug Window
     else if (_onlyDebugWindow == true) {
         if (this->m_DebugWindow.isOpen()) {
             // Ensure Debug Text Exists
-            if (this->m_DebugText) {
+            if (this->m_DebugText != nullptr) {
                 // Draw the Debug Text
-                float fTextCenterX = (this->m_DebugWindow.getSize().x - this->m_DebugText->getLocalBounds().size.x) / 2;
-                float fTextCenterY = (this->m_DebugWindow.getSize().y - this->m_DebugText->getLocalBounds().size.y) / 2;
+                float fTextCenterX = (this->m_DebugWindow.getSize().x - this->m_DebugText->getLocalBounds().size.x) / 2.0f;
+                float fTextCenterY = (this->m_DebugWindow.getSize().y - this->m_DebugText->getLocalBounds().size.y) / 2.0f;
                 this->m_DebugText->setPosition(sf::Vector2f(fTextCenterX, fTextCenterY));
                 this->m_DebugWindow.draw(*(this->m_DebugText));
             }

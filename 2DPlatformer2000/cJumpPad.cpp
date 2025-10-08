@@ -12,10 +12,10 @@
 
 #include "cJumpPad.h"
 
-cJumpPad::cJumpPad() : cActor(ActorType::JUMP_PAD),
-	m_JumpPadAnimation(PlaybackType::REVERSE_ONCE, this->m_TileMap, this->m_ActorSprite, 163, 165) {
+cJumpPad::cJumpPad(cTileMap* _tileMap) : cActor(_tileMap, ActorType::JUMP_PAD),
+	m_JumpPadAnimation(PlaybackType::REVERSE_ONCE, *_tileMap, this->m_ActorSprite, 163, 165) {
 	// Jump Pad Sprite
-	this->m_ActorSprite.setTextureRect(this->m_TileMap.GetTile(163));
+	this->m_ActorSprite.setTextureRect(this->m_TileMap->GetTile(163));
 
 	// Jump Pad Tiles
 	this->m_IdleTile = 163;

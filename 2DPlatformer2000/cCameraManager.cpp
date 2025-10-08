@@ -19,7 +19,7 @@ cCameraManager::cCameraManager() {
 cCameraManager::~cCameraManager() {
 }
 
-void cCameraManager::Initialise(sf::RenderWindow& _mainWindow, sf::Vector2f _position) {
+void cCameraManager::Initialise(sf::RenderWindow& _mainWindow) {
 	// Main Window
 	this->m_MainWindow = &_mainWindow;
 
@@ -28,9 +28,13 @@ void cCameraManager::Initialise(sf::RenderWindow& _mainWindow, sf::Vector2f _pos
 	int iCameraDimensionY = _mainWindow.getSize().y / 3; // Third of Window (3x Zoom)
 	sf::Vector2f CameraDimensions(iCameraDimensionX, iCameraDimensionY); 
 
+	// Offset Camera Position
+	sf::Vector2f Offset(iCameraDimensionX / 2, iCameraDimensionY / 2);
+
 	// Camera
-	this->m_CameraView = sf::View(_position, CameraDimensions);
-	this->m_CameraPosition = _position;
+	this->m_CameraView = sf::View(sf::Vector2f(0.0f, 0.0f), CameraDimensions);
+	this->m_CameraView.move(Offset);
+	this->m_CameraPosition = sf::Vector2f(0.0f, 0.0f) + Offset;
 
 	// Update Camera to Window
 	this->UpdateCamera();

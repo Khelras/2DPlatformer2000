@@ -16,15 +16,15 @@
 
 class cUserInterfaceManager {
 private:
-	cTileMap* m_TileMap;
+	cTileMap m_TileMap;
 	std::vector<cUserInterface> m_PlayerLivesUI;
+	cUserInterface m_PlayerKey;
 
 public:
 	cUserInterfaceManager(); // Constructor
 	~cUserInterfaceManager(); // Destructor
 
 	// User Interface Manager Functions
-	void Initialise(cTileMap* _tileMap); // Initialise the User Interface Manager
 	void Process(GameSettings& _settings, cPlayer* _player); // Process User Interface
 	void DrawUI(sf::RenderWindow& _window); // Draw the User Interface
 };

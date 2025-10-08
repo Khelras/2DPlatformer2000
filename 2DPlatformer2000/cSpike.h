@@ -18,7 +18,7 @@ private:
 	int m_SpikeTile; // Tile 183
 
 public:
-	cSpike(); // Constructor
+	cSpike(cTileMap* _tileMap); // Constructor
 	~cSpike(); // Destructor
 	
 	// Spike Functions

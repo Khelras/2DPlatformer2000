@@ -17,9 +17,10 @@
 #include "cKey.h"
 #include "cDoor.h"
 
-cActor::cActor(ActorType _actorType) : m_ActorSprite(m_TileMap.GetTileMapTexture()) {
+cActor::cActor(cTileMap* _tileMap, ActorType _actorType) : m_ActorSprite(_tileMap->GetTileMapTexture()) {
+	this->m_TileMap = _tileMap;
 	this->SetActorType(_actorType);
-	this->m_ActorSprite.setTextureRect(this->m_TileMap.GetTile(0));
+	this->m_ActorSprite.setTextureRect(this->m_TileMap->GetTile(0));
 }
 
 cActor::~cActor() {
@@ -58,6 +59,11 @@ void cActor::UpdateActor(GameSettings& _settings, float _deltaTime, std::vector<
 
 	// Set Sprite Position
 	this->m_ActorSprite.setPosition(this->m_ActorPosition);
+}
+
+void cActor::ResetActor() {
+	// Go back to Default Location
+	this->SetActorPosition(this->m_ActorDefaultPosition);
 }
 
 void cActor::MoveX(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors) {
@@ -262,11 +268,13 @@ void cActor::SetActorType(ActorType _type) {
 		case (ActorType::NONE): {
 			this->m_IsDynamic = false;
 			this->m_CollisionType = CollisionType::NONE;
+			this->m_HasGravity = false;
 		} break;
 
 		case (ActorType::SOLID): {
 			this->m_IsDynamic = false;
 			this->m_CollisionType = CollisionType::FULL;
+			this->m_HasGravity = false;
 		} break;
 
 		case (ActorType::SOLID_THROUGH): {
@@ -320,15 +328,26 @@ void cActor::SetActorType(ActorType _type) {
 }
 
 void cActor::SetActorSprite(unsigned int _x, unsigned int _y) {
-	this->m_ActorSprite.setTextureRect(this->m_TileMap.GetTile(_x, _y));
+	this->m_ActorSprite.setTextureRect(this->m_TileMap->GetTile(_x, _y));
 }
 
 void cActor::SetActorSprite(unsigned int _n) {
-	this->m_ActorSprite.setTextureRect(this->m_TileMap.GetTile(_n));
+	this->m_ActorSprite.setTextureRect(this->m_TileMap->GetTile(_n));
+}
+
+void cActor::SetActorOpacity(unsigned int _alpha) {
+	int iAlpha = (_alpha > 255) ? 255 : _alpha; // Clamp
+	this->m_ActorSprite.setColor(sf::Color(255, 255, 255, iAlpha));
 }
 
 void cActor::SetActorPosition(sf::Vector2f _position) {
 	this->m_ActorPosition = _position;
+	this->m_ActorSprite.setPosition(_position);
+}
+
+void cActor::SetActorDefaultPosition(sf::Vector2f _position) {
+	this->m_ActorPosition = _position;
+	this->m_ActorDefaultPosition = _position;
 	this->m_ActorSprite.setPosition(_position);
 }
 
@@ -358,6 +377,9 @@ sf::Sprite cActor::GetActorSprite() const {
 
 sf::Vector2f cActor::GetActorPosition() const {
 	return this->m_ActorPosition;
+}
+sf::Vector2f cActor::GetActorDefaultPosition(sf::Vector2f _position) {
+	return sf::Vector2f();
 }
 CollisionType cActor::GetActorCollision() const {
 	return this->m_CollisionType;

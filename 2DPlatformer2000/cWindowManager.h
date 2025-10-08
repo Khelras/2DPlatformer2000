@@ -12,6 +12,7 @@
 
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <string>
 
 class cWindowManager {
 private:
@@ -19,7 +20,7 @@ private:
 	sf::RenderWindow m_MainWindow; // Main Window
 	sf::RenderWindow m_DebugWindow; // Debug Window
 
-	// Font
+	// Debug Text
 	sf::Font m_DebugFont;
 	sf::Text* m_DebugText;
 

@@ -18,7 +18,7 @@ private:
 	int m_KeyTile; // Tile 97
 
 public:
-	cKey(); // Constructor
+	cKey(cTileMap* _tileMap); // Constructor
 	~cKey(); // Destructor
 
 	// Key Functions

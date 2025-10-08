@@ -21,11 +21,27 @@ cEventManager::cEventManager() {
 cEventManager::~cEventManager() {
 }
 
-void cEventManager::Intialise(sf::RenderWindow& _mainWindow) {
+void cEventManager::Intialise(sf::RenderWindow& _mainWindow) {	
 	this->m_MainWindow = &_mainWindow;
 }
 
-void cEventManager::Process(GameSettings& _settings, sf::RenderWindow* _debugWindow, cPlayer* _player) {
+void cEventManager::Process(GameSettings& _settings, sf::RenderWindow* _debugWindow, cLevelManager& _levelManager) {
+	// Player
+	cPlayer* PlayerActor = _levelManager.GetPlayer();
+	
+	// Only Process Events when there is a Player
+	if (PlayerActor == nullptr) {
+		// Only allow Close Window Event
+		while (const std::optional event = this->m_MainWindow->pollEvent()) {
+			// Close Event
+			if (event->is<sf::Event::Closed>()) {
+				this->m_MainWindow->close(); // Close Window
+			}
+		}
+
+		return;
+	};
+	
 	// Only Process Main Window Events if Debug Window is Closed
 	if (_debugWindow->isOpen() == false || _debugWindow == nullptr) {
 		// Events for the Main Window
@@ -52,12 +68,12 @@ void cEventManager::Process(GameSettings& _settings, sf::RenderWindow* _debugWin
 
 				// Jump
 				if (key->scancode == sf::Keyboard::Scancode::Up) { // Up-Arrow Key
-					_player->Jump(_settings);
+					PlayerActor->Jump(_settings);
 				}
 
 				// Down
 				if (key->scancode == sf::Keyboard::Scancode::Down) { // Down-Arrow Key
-					_player->SetPlayerPhaseThrough(true);
+					PlayerActor->SetPlayerPhaseThrough(true);
 				}
 			}
 
@@ -65,17 +81,17 @@ void cEventManager::Process(GameSettings& _settings, sf::RenderWindow* _debugWin
 			if (const auto* key = event->getIf<sf::Event::KeyReleased>()) {
 				// Down
 				if (key->scancode == sf::Keyboard::Scancode::Down) { // Down-Arrow Key
-					_player->SetPlayerPhaseThrough(false);
+					PlayerActor->SetPlayerPhaseThrough(false);
 				}
 
 				// Left
 				if (key->scancode == sf::Keyboard::Scancode::Left) { // Left-Arrow Key
-					_player->IdlePlayer();
+					PlayerActor->IdlePlayer();
 				}
 
 				// Right
 				if (key->scancode == sf::Keyboard::Scancode::Right) { // Right-Arrow Key
-					_player->IdlePlayer();
+					PlayerActor->IdlePlayer();
 				}
 			}
 		}
@@ -185,7 +201,9 @@ void cEventManager::Process(GameSettings& _settings, sf::RenderWindow* _debugWin
 					}
 					// Restarted the whole Game
 					else if (this->m_IsShiftPressed == true) {
-						// TODO: Restart the Whole Game Function
+						// Restart Game
+						_settings.ResetPlayerLives(); // Reset Player Lives
+						_levelManager.RestartGame();
 
 						// Output to Console
 						std::cout << "Restarted the Whole Game!" << std::endl;

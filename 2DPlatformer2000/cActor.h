@@ -40,10 +40,11 @@ enum class CollisionType {
 class cActor {
 protected:
 	// Actor Attributes
-	cTileMap m_TileMap; // Tile Map
+	cTileMap* m_TileMap; // Tile Map
 	ActorType m_ActorType; // Type of Actor
 	sf::Sprite m_ActorSprite; // The Actor Sprite
 	sf::Vector2f m_ActorPosition; // The Position of Actor
+	sf::Vector2f m_ActorDefaultPosition; // The Starting/Default Position of Actor
 
 	// Physics Attributes
 	CollisionType m_CollisionType; // Type of Collision
@@ -56,12 +57,13 @@ protected:
 	sf::Vector2f m_Acceleration; // Acceleration of Actor
 
 public:
-	cActor(ActorType _actorType); // Constructor
+	cActor(cTileMap* _tileMap, ActorType _actorType); // Constructor
 	virtual ~cActor(); // Virtual Destructor
 
 	// Actor Functions (Can be Overridden by any Derived Classes)
 	virtual void DrawActor(sf::RenderWindow& _window); // Draw Actor Sprite to the Window
 	virtual void UpdateActor(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors); // Updates the Actor
+	virtual void ResetActor(); // Reset Actor back to Default Location
 	virtual void MoveX(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors); // Horizontal Movement
 	virtual void MoveY(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors); // Vertical Movement
 	virtual cActor* CheckCollision(sf::FloatRect _bounds, std::vector<cActor*> _actors); // Checks Collision against all Actors
@@ -70,7 +72,9 @@ public:
 	virtual void SetActorType(ActorType _type); // Sets the Actor Type
 	virtual void SetActorSprite(unsigned int _x, unsigned int _y); // Sets the Actor Sprite given X and Y of Tile Map
 	virtual void SetActorSprite(unsigned int _n); // Sets the Actor Sprite given the n'th Tile in the Tile Map
+	virtual void SetActorOpacity(unsigned int _alpha); // Sets the Actor Sprite Opacity given Alpha
 	virtual void SetActorPosition(sf::Vector2f _position); // Sets the Position of the Actor
+	virtual void SetActorDefaultPosition(sf::Vector2f _position); // Sets the Starting/Default Position of the Actor
 
 	// Setters for Physics Attributes
 	virtual void SetActorCollision(CollisionType _collisionType); // Sets the Collision Type of the Actor
@@ -82,6 +86,7 @@ public:
 	virtual ActorType GetActorType() const; // Returns the Actor Type
 	virtual sf::Sprite GetActorSprite() const; // Returns the Actor Sprite based on the Tile Index
 	virtual sf::Vector2f GetActorPosition() const; // Returns the Position of the Actor
+	virtual sf::Vector2f GetActorDefaultPosition(sf::Vector2f _position); // Returns the Starting/Default Position of the Actor
 
 	// Getts for Physics Attributes
 	virtual CollisionType GetActorCollision() const; // Returns the Collision Type of the Actor

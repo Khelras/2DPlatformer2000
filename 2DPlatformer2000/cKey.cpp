@@ -12,7 +12,7 @@
 
 #include "cKey.h"
 
-cKey::cKey() : cActor(ActorType::KEY) {
+cKey::cKey(cTileMap* _tileMap) : cActor(_tileMap, ActorType::KEY) {
 	// Key Sprite
 	this->SetActorSprite(96);
 

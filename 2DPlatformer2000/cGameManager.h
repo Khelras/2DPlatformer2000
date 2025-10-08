@@ -16,26 +16,20 @@
 #include "cEventManager.h"
 #include "cCameraManager.h"
 #include "cUserInterfaceManager.h"
-#include "cTileMap.h"
+#include "cLevelManager.h"
 
 class cGameManager {
 	// Game Settings
 	GameSettings m_GameSettings;
-
-	// Tile Map
-	cTileMap m_TileMap;
-
-	// Actors
-	std::vector<cActor*> m_Actors;
-	cPlayer* m_Player;
 	
 	// Managers
 	cWindowManager m_WindowManager;
 	cEventManager m_EventManager;
 	cCameraManager m_CameraManager;
 	cUserInterfaceManager m_UserInterfaceManager;
+	cLevelManager m_LevelManager;
 
-	// Delta Time
+	// Other
 	float m_DeltaTime;
 
 public:

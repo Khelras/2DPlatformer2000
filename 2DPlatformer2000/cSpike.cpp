@@ -12,7 +12,7 @@
 
 #include "cSpike.h"
 
-cSpike::cSpike() : cActor(ActorType::SPIKE) {
+cSpike::cSpike(cTileMap* _tileMap) : cActor(_tileMap, ActorType::SPIKE) {
 	// Spike Sprite
 	this->SetActorSprite(183);
 

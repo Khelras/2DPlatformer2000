@@ -12,9 +12,12 @@
 
 #include "cPlayer.h"
 #include "cJumpPad.h"
+#include "cSpike.h"
+#include "cKey.h"
+#include "cDoor.h"
 
-cPlayer::cPlayer() : cActor(ActorType::PLAYER),
-	m_MovementAnimation(PlaybackType::NORMAL_LOOP, this->m_TileMap, this->m_ActorSprite, 261, 264) {
+cPlayer::cPlayer(cTileMap* _tileMap) : cActor(_tileMap, ActorType::PLAYER),
+	m_MovementAnimation(PlaybackType::NORMAL_LOOP, *_tileMap, this->m_ActorSprite, 261, 264) {
 	// Player Sprite
 	this->SetActorSprite(0, 13);
 
@@ -29,6 +32,8 @@ cPlayer::cPlayer() : cActor(ActorType::PLAYER),
 	//this->_settings.m_PlayerMoveSpeed = 8.0f;
 	//_settings.m_PlayerJumpHeight = -20.0f;
 	this->m_HasKey = false;
+	this->m_HasDied = false;
+	this->m_HasCompletedLevel = false;
 	this->m_HasDoubleJumped = false;
 	this->m_HasPhasedThrough = false;
 	this->m_HasMovedByPlatform = false;
@@ -76,7 +81,7 @@ void cPlayer::UpdateActor(GameSettings& _settings, float _deltaTime, std::vector
 						else {
 							// Back to Idle
 							if (this->m_Velocity.x == 0) {
-								this->m_ActorSprite.setTextureRect(this->m_TileMap.GetTile(this->m_IdleTile));
+								this->m_ActorSprite.setTextureRect(this->m_TileMap->GetTile(this->m_IdleTile));
 							}
 						}
 
@@ -94,7 +99,7 @@ void cPlayer::UpdateActor(GameSettings& _settings, float _deltaTime, std::vector
 
 				// Back to Idle
 				if (this->m_Velocity.x == 0) {
-					this->m_ActorSprite.setTextureRect(this->m_TileMap.GetTile(this->m_IdleTile));
+					this->m_ActorSprite.setTextureRect(this->m_TileMap->GetTile(this->m_IdleTile));
 				}
 			}
 		}
@@ -115,6 +120,19 @@ void cPlayer::UpdateActor(GameSettings& _settings, float _deltaTime, std::vector
 
 	// Animations
 	this->m_MovementAnimation.UpdateAnimation(_deltaTime);
+}
+
+void cPlayer::ResetActor() {
+	// Call ResetActor() Function from cActor Class
+	cActor::ResetActor();
+
+	// Extend Functionality
+	// Reset all Player Attributes
+	this->m_HasKey = false;
+	this->m_HasDied = false;
+	this->m_HasDoubleJumped = false;
+	this->m_HasPhasedThrough = false;
+	this->m_HasMovedByPlatform = false;
 }
 
 void cPlayer::MoveX(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors) {
@@ -158,18 +176,11 @@ void cPlayer::MoveX(GameSettings& _settings, float _deltaTime, std::vector<cActo
 		else if (CollisionActor != nullptr) {
 			// If the Collision Actor is a Spike
 			if (CollisionActor->GetActorType() == ActorType::SPIKE) {
-				// Check if Last Life
-				if (_settings.m_PlayerLives > 0) {
-					// Decrease Lives
-					_settings.m_PlayerLives--;
-					
-					// TODO: Restart Level
-					this->m_ActorPosition = sf::Vector2f(0.0f, 0.0f); // REMOVE LATER
-				}
-				// Last Life, so Player Died
-				else {
-					// TODO: Insert a Restart Game
-				}
+				// Decrease Lives
+				_settings.m_PlayerLives--;
+
+				// Played Lost a Life
+				this->m_HasDied = true;
 
 				// Stop any further movement
 				return;
@@ -184,25 +195,39 @@ void cPlayer::MoveX(GameSettings& _settings, float _deltaTime, std::vector<cActo
 			else if (CollisionActor->GetActorType() == ActorType::DOOR) {
 				// Ensure Player has the Level Key
 				if (this->m_HasKey) {
-					// TODO: Go to next Level
-					this->m_ActorPosition = sf::Vector2f(0.0f, 0.0f); // REMOVE LATER
+					// Level Completed
+					this->m_HasCompletedLevel = true;
 				}
 				// Player does not have the Level Key
 				else {
-					// Proceed with movement
-					this->m_ActorPosition.x += static_cast<float>(iDirectionX);
-					iMoveX -= iDirectionX;
-					continue;
+					// Check for Surrounding Solids
+					if (this->CheckCollisionSolid(PlayerBounds, _actors) == false) {
+						// Proceed with movement
+						this->m_ActorPosition.x += static_cast<float>(iDirectionX);
+						iMoveX -= iDirectionX;
+						continue;
+					}
+
+					// Otherwise, Stop Movement
+					this->m_Velocity.x = 0.0f; // Stops any Horizontal Movement
+					return;
 				}
 			}
 
 			// If the Collision Actor is an Actor Type of Solid Through
 			if (CollisionActor->GetActorType() == ActorType::SOLID_THROUGH
 				|| CollisionActor->GetActorType() == ActorType::SOLID_THROUGH_MOVING) {
-				// Proceed with Movement
-				this->m_ActorPosition.x += static_cast<float>(iDirectionX);
-				iMoveX -= iDirectionX;
-				continue;
+				// Check for Surrounding Solids
+				if (this->CheckCollisionSolid(PlayerBounds, _actors) == false) {
+					// Proceed with movement
+					this->m_ActorPosition.x += static_cast<float>(iDirectionX);
+					iMoveX -= iDirectionX;
+					continue;
+				}
+
+				// Otherwise, Stop Movement
+				this->m_Velocity.x = 0.0f; // Stops any Horizontal Movement
+				return;
 			}
 
 			// The Collision Actor is Dynamic
@@ -249,13 +274,16 @@ void cPlayer::MoveX(GameSettings& _settings, float _deltaTime, std::vector<cActo
 					// Stand on the Jump Pad
 					this->m_ActorPosition.y -= JumpPad->GetJumpPadBounds().size.y;
 
-					// Proceed with Movement
-					this->m_ActorPosition.x += static_cast<float>(iDirectionX);
-					iMoveX -= iDirectionX;
-					continue;
+					// Check for Surrounding Solids
+					if (this->CheckCollisionSolid(PlayerBounds, _actors) == false) {
+						// Proceed with movement
+						this->m_ActorPosition.x += static_cast<float>(iDirectionX);
+						iMoveX -= iDirectionX;
+						continue;
+					}
 				}
 
-				// Stop Movement
+				// Otherwise, Stop Movement
 				this->m_Velocity.x = 0.0f; // Stops any Horizontal Movement
 				return; // Collision Resolved
 			}
@@ -289,13 +317,13 @@ void cPlayer::MoveY(GameSettings& _settings, float _deltaTime, std::vector<cActo
 
 		// Set Sprite Tile to Jump Tile
 		if (this->m_Velocity.x == 0) {
-			this->m_ActorSprite.setTextureRect(this->m_TileMap.GetTile(this->m_JumpTile));
+			this->m_ActorSprite.setTextureRect(this->m_TileMap->GetTile(this->m_JumpTile));
 		}
 		else if (this->m_Velocity.x < 0) { // Player is Moving Left
-			this->m_ActorSprite.setTextureRect(this->m_TileMap.GetTile(this->m_MovementTileEnd));
+			this->m_ActorSprite.setTextureRect(this->m_TileMap->GetTile(this->m_MovementTileEnd));
 		}
 		else if (this->m_Velocity.x > 0) { // Player is Moving Right
-			this->m_ActorSprite.setTextureRect(this->m_TileMap.GetTile(this->m_MovementTileEnd));
+			this->m_ActorSprite.setTextureRect(this->m_TileMap->GetTile(this->m_MovementTileEnd));
 		}
 
 		// Custom Player Bounds
@@ -315,18 +343,11 @@ void cPlayer::MoveY(GameSettings& _settings, float _deltaTime, std::vector<cActo
 		else if (CollisionActor != nullptr) {
 			// If the Collision Actor is a Spike
 			if (CollisionActor->GetActorType() == ActorType::SPIKE) {
-				// Check if Last Life
-				if (_settings.m_PlayerLives > 0) {
-					// Decrease Lives
-					_settings.m_PlayerLives--;
+				// Decrease Lives
+				_settings.m_PlayerLives--;
 
-					// TODO: Restart Level
-					this->m_ActorPosition = sf::Vector2f(0.0f, 0.0f); // REMOVE LATER
-				}
-				// Last Life, so Player Died
-				else {
-					// TODO: Insert a Restart Game
-				}
+				// Played Lost a Life
+				this->m_HasDied = true;
 
 				// Stop any further movement
 				return;
@@ -341,15 +362,22 @@ void cPlayer::MoveY(GameSettings& _settings, float _deltaTime, std::vector<cActo
 			else if (CollisionActor->GetActorType() == ActorType::DOOR) {
 				// Ensure Player has the Level Key
 				if (this->m_HasKey) {
-					// TODO: Go to next Level
-					this->m_ActorPosition = sf::Vector2f(0.0f, 0.0f); // REMOVE LATER
+					// Level Completed
+					this->m_HasCompletedLevel = true;
 				}
 				// Player does not have the Level Key
 				else {
-					// Proceed with movement
-					this->m_ActorPosition.y += static_cast<float>(iDirectionY);
-					iMoveY -= iDirectionY;
-					continue;
+					// Check for Surrounding Solids
+					if (this->CheckCollisionSolid(PlayerBounds, _actors) == false) {
+						// Proceed with movement
+						this->m_ActorPosition.y += static_cast<float>(iDirectionY);
+						iMoveY -= iDirectionY;
+						continue;
+					}
+
+					// Otherwise, Stop Movement
+					this->m_Velocity.y = 0.0f; // Stops any Horizontal Movement
+					return;
 				}
 			}
 
@@ -358,10 +386,17 @@ void cPlayer::MoveY(GameSettings& _settings, float _deltaTime, std::vector<cActo
 				// If the Collision Actor is an Actor Type of Solid Through
 				if (CollisionActor->GetActorType() == ActorType::SOLID_THROUGH
 					|| CollisionActor->GetActorType() == ActorType::SOLID_THROUGH_MOVING) {
-					// Proceed with Movement
-					this->m_ActorPosition.y += static_cast<float>(iDirectionY);
-					iMoveY -= iDirectionY;
-					continue;
+					// Check for Surrounding Solids
+					if (this->CheckCollisionSolid(PlayerBounds, _actors) == false) {
+						// Proceed with movement
+						this->m_ActorPosition.y += static_cast<float>(iDirectionY);
+						iMoveY -= iDirectionY;
+						continue;
+					}
+
+					// Otherwise, Stop Movement
+					this->m_Velocity.y = 0.0f; // Stops any Horizontal Movement
+					return;
 				}
 
 				// Start falling early when bumping head
@@ -388,10 +423,17 @@ void cPlayer::MoveY(GameSettings& _settings, float _deltaTime, std::vector<cActo
 						return;
 					}
 
-					// Otherwise, Keep Falling
-					this->m_ActorPosition.y += static_cast<float>(iDirectionY);
-					iMoveY -= iDirectionY;
-					continue;
+					// Check for Surrounding Solids
+					if (this->CheckCollisionSolid(PlayerBounds, _actors) == false) {
+						// Proceed with movement
+						this->m_ActorPosition.y += static_cast<float>(iDirectionY);
+						iMoveY -= iDirectionY;
+						continue;
+					}
+
+					// Otherwise, Stop Movement
+					this->m_Velocity.y = 0.0f; // Stops any Horizontal Movement
+					return;
 				}
 				// If the Collision Actor is an Actor Type of Jump Pad
 				else if (CollisionActor->GetActorType() == ActorType::JUMP_PAD) {
@@ -414,6 +456,25 @@ void cPlayer::MoveY(GameSettings& _settings, float _deltaTime, std::vector<cActo
 			}
 		}
 	}
+}
+
+bool cPlayer::CheckCollisionSolid(sf::FloatRect _bounds, std::vector<cActor*> _actors) {
+	// Loop through all Actors
+	for (cActor* Actor : _actors) {
+		// Skip Self as well as Actors with that are not Solids
+		if (Actor == this || Actor->GetActorType() != ActorType::SOLID) continue;
+
+		// Found a Solid
+		if (Actor->GetActorType() == ActorType::SOLID) {
+			if (_bounds.findIntersection(Actor->GetActorSprite().getGlobalBounds())) {
+				// Return true
+				return true;
+			}
+		}
+	}
+
+	// Otherwise, Return False
+	return false;
 }
 
 sf::FloatRect cPlayer::GetPlayerBounds() {
@@ -460,7 +521,7 @@ void cPlayer::IdlePlayer() {
 	this->m_Velocity.x = 0.0f; // Stop Horizontal Movement
 	this->m_ActorSprite.setScale(sf::Vector2f(1.0f, 1.0f)); // Reset Scale
 	this->m_ActorSprite.setOrigin(sf::Vector2f(0.0f, 0.0f)); // Reset Origin
-	this->m_ActorSprite.setTextureRect(this->m_TileMap.GetTile(this->m_IdleTile)); // Idle Tile
+	this->m_ActorSprite.setTextureRect(this->m_TileMap->GetTile(this->m_IdleTile)); // Idle Tile
 }
 
 void cPlayer::Jump(GameSettings& _settings) {
@@ -486,12 +547,32 @@ void cPlayer::Jump(GameSettings& _settings) {
 	}
 }
 
+void cPlayer::SetPlayerDied(bool _died) {
+	this->m_HasDied = _died;
+}
+
+void cPlayer::SetPlayerCompletedLevel(bool _complete) {
+	this->m_HasCompletedLevel = true;
+}
+
 void cPlayer::SetPlayerPhaseThrough(bool _phase) {
 	this->m_HasPhasedThrough = _phase;
 }
 
 void cPlayer::SetPlayerMovedByPlatform(bool _hasMoved) {
 	this->m_HasMovedByPlatform = _hasMoved;
+}
+
+const bool cPlayer::HasKey() const {
+	return this->m_HasKey;
+}
+
+const bool cPlayer::GetPlayerDied() const {
+	return this->m_HasDied;
+}
+
+const bool cPlayer::GetPlayerCompletedLevel() const {
+	return this->m_HasCompletedLevel;
 }
 
 const bool cPlayer::GetPlayerPhaseThrough() const {

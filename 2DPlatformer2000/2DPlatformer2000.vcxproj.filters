@@ -17,9 +17,6 @@
     <Filter Include="Source Files\User Interface">
       <UniqueIdentifier>{209b86df-3b85-4f98-8a45-545480cf3d45}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Level">
-      <UniqueIdentifier>{35932465-3dc7-4c39-8ab3-1a1b862b3e85}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Animation">
       <UniqueIdentifier>{4c2e7a44-d7e0-4035-9d15-bcbec96caf22}</UniqueIdentifier>
     </Filter>
@@ -58,9 +55,6 @@
     <ClCompile Include="cUserInterfaceManager.cpp">
       <Filter>Source Files\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="cLevel.cpp">
-      <Filter>Source Files\Level</Filter>
-    </ClCompile>
     <ClCompile Include="cAnimation.cpp">
       <Filter>Source Files\Animation</Filter>
     </ClCompile>
@@ -78,6 +72,9 @@
     </ClCompile>
     <ClCompile Include="GameSettings.h">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cLevelManager.cpp">
+      <Filter>Source Files\Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -111,9 +108,6 @@
     <ClInclude Include="cUserInterfaceManager.h">
       <Filter>Source Files\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="cLevel.h">
-      <Filter>Source Files\Level</Filter>
-    </ClInclude>
     <ClInclude Include="cAnimation.h">
       <Filter>Source Files\Animation</Filter>
     </ClInclude>
@@ -128,6 +122,9 @@
     </ClInclude>
     <ClInclude Include="cDoor.h">
       <Filter>Source Files\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="cLevelManager.h">
+      <Filter>Source Files\Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

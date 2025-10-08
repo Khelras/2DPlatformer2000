@@ -12,7 +12,7 @@
 
 #include "cDoor.h"
 
-cDoor::cDoor() : cActor(ActorType::DOOR) {
+cDoor::cDoor(cTileMap* _tileMap) : cActor(_tileMap, ActorType::DOOR) {
 	// Door Sprite
 	this->SetActorSprite(56);
 

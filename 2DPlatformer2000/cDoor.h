@@ -18,7 +18,7 @@ private:
 	int m_DoorTile; // Tile 56
 
 public:
-	cDoor(); // Constructor
+	cDoor(cTileMap* _tileMap); // Constructor
 	~cDoor(); // Destructor
 
 	// Door Function

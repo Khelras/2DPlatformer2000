@@ -36,30 +36,39 @@ private:
 	//float m_MoveSpeed; // Player Movement Speed
 	//float m_JumpHeight; // Player Jump Height
 	bool m_HasKey; // Level key
+	bool m_HasDied; // Player Died
+	bool m_HasCompletedLevel; // Player Completed Level
 	bool m_HasDoubleJumped; // Player Double Jump
 	bool m_HasPhasedThrough; // Player Phase Through
 	bool m_HasMovedByPlatform; // Player Movement with a Moving Platform
 
 public:
-	cPlayer(); // Constructor
+	cPlayer(cTileMap* _tileMap); // Constructor
 	~cPlayer(); // Destructor
 
 	// Overridden Functions
 	void UpdateActor(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors) override;
+	void ResetActor() override;
 	void MoveX(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors) override;
 	void MoveY(GameSettings& _settings, float _deltaTime, std::vector<cActor*> _actors) override;
 
 	// Player Functions
+	bool CheckCollisionSolid(sf::FloatRect _bounds, std::vector<cActor*> _actors); // Check Collisions against Solids Only
 	sf::FloatRect GetPlayerBounds(); // Returns the Custom Bounds of Player
 	void MovePlayer(MovementDirection _direction, GameSettings& _settings); // Player Movement
 	void IdlePlayer(); // Player Idle
 	void Jump(GameSettings& _settings); // Player Jump
 	
 	// Setters
+	void SetPlayerDied(bool _died); // Set the Has Player Died
+	void SetPlayerCompletedLevel(bool _complete); // Set the Player Completed Level
 	void SetPlayerPhaseThrough(bool _phase); // Set the Player Phase Through
 	void SetPlayerMovedByPlatform(bool _hasMoved); // Sets the Player Moved By Platform
 
 	// Getters
+	const bool HasKey() const; // Returns if Player has Key or not 
+	const bool GetPlayerDied() const; // Returns the Has Player Died
+	const bool GetPlayerCompletedLevel() const; // Returns the Player Completed Level
 	const bool GetPlayerPhaseThrough() const; // Returns the Player Phase Through
 	const bool GetPlayerMovedByPlatform() const; // Returns the Player Moved By Platform
 };

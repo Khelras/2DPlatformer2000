@@ -28,7 +28,7 @@ private:
 	//int m_JumpPadHeight;
 
 public:
-	cJumpPad(); // Constructor
+	cJumpPad(cTileMap* _tileMap); // Constructor
 	~cJumpPad(); // Destructor
 	
 	// Overridden Functions

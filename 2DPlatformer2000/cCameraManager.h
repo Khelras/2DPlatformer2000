@@ -24,7 +24,7 @@ public:
 	~cCameraManager(); // Destructor
 
 	// Camera Functions
-	void Initialise(sf::RenderWindow& _mainWindow, sf::Vector2f _position); // Initialise the Camera Manager
+	void Initialise(sf::RenderWindow& _mainWindow); // Initialise the Camera Manager
 	void MoveCamera(sf::Vector2f _offset); // Moves the Camera given an Offset
 	void UpdateCamera(); // Updates the Camera to the Window
 
